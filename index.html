@@ -409,7 +409,6 @@ function saveDemoState() {
 }
 
 function updateDisplay() {
-
   document.getElementById("dashboardPoints").textContent = points;
 
   document.getElementById("dashboardProgress").textContent =
@@ -442,8 +441,7 @@ function updateDisplay() {
 The profile and points remain local to the browser; this is still a demo dashboard, not a secure account system.
 
 **Bro, let's do Step 1 first.** Add the dashboard section above the hero, commit it, and tell me when you can see it on the live site. Then we'll connect the data together. 💚
-
-  document.getElementById("points").textContent = points;
+ document.getElementById("points").textContent = points;
 
   const completed =
     Number(quizDone) + Number(learningDone);
