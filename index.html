@@ -203,6 +203,47 @@ footer {
 </section>
 
 <main>
+
+  <section class="info" id="profile" style="margin-bottom:24px">
+    <h2>👤 Your TaskPoa Profile</h2>
+    <p class="sub">Create your local demo profile.</p>
+
+    <form id="profileForm">
+      <label for="displayName">Display name</label><br>
+      <input
+        id="displayName"
+        type="text"
+        maxlength="30"
+        placeholder="e.g. Japheth"
+        required
+      ><br>
+
+      <label for="username">Username</label><br>
+      <input
+        id="username"
+        type="text"
+        maxlength="20"
+        pattern="[A-Za-z0-9_]{3,20}"
+        placeholder="e.g. Japhee_01"
+        title="Use 3–20 letters, numbers or underscores"
+        required
+      ><br>
+
+      <button class="action" type="submit">
+        Save profile
+      </button>
+    </form>
+
+    <p class="message" id="profileMessage" aria-live="polite"></p>
+
+    <div id="profileDisplay" hidden>
+      <p>Welcome, <strong id="shownDisplayName"></strong>! 🌱</p>
+      <p>Your username: <strong id="shownUsername"></strong></p>
+      <button class="action" id="editProfileButton" type="button">
+        Edit profile
+      </button>
+    </div>
+  </section>
   <div class="notice">
     <strong>⚠️ Demo only:</strong> These points have no cash value
     and cannot be withdrawn. This is a learning project, not a live
