@@ -409,6 +409,40 @@ function saveDemoState() {
 }
 
 function updateDisplay() {
+
+  document.getElementById("dashboardPoints").textContent = points;
+
+  document.getElementById("dashboardProgress").textContent =
+    completed + " of 2";
+
+  const profile = loadProfile();
+
+  document.getElementById("dashboardGreeting").textContent =
+    profile
+      ? "Welcome back, @" + profile.username + "! 🌱"
+      : "Welcome to TaskPoa! 🌱";
+
+  document.getElementById("dashboardMessage").textContent =
+    profile
+      ? "Great to see you again, " + profile.displayName +
+        ". Keep learning and growing!"
+      : "Create your profile to make TaskPoa your own.";
+```
+
+**Important:** Keep the existing code in `updateDisplay()`—just insert these lines before its closing `}`. Don't create a second function with the same name.
+
+## Step 3 — Save and test
+
+1. Commit your changes to the `main` branch.
+2. Open the [live TaskPoa website](https://massacredre22-ops.github.io/taskpoa/).
+3. Refresh the page.
+4. Check that the greeting shows your saved username and the dashboard balance matches the main balance.
+5. Complete a task and confirm both balances update.
+
+The profile and points remain local to the browser; this is still a demo dashboard, not a secure account system.
+
+**Bro, let's do Step 1 first.** Add the dashboard section above the hero, commit it, and tell me when you can see it on the live site. Then we'll connect the data together. 💚
+
   document.getElementById("points").textContent = points;
 
   const completed =
