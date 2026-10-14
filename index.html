@@ -269,8 +269,7 @@
 
     .message { font-size: 13px; margin-top: 8px; min-height: 18px; }
     .message.success { color: var(--success); }
-    .message.error { color: var(--danger); }
-.action {
+    .message.error { color: var(--danger); }.action {
       background: var(--green);
       color: white;
       padding: 10px 16px;
@@ -525,8 +524,7 @@
       nav a, .nav-btn { padding: 6px 10px; font-size: 12px; }
     }
   </style>
-</head>
-<body>
+</head><body>
   <!-- Header -->
   <header>
     <div>
@@ -668,8 +666,7 @@
         </ul>
       </div>
     </main>
-  </div>
-<!-- ========== PROFILE PAGE ========== -->
+  </div><!-- ========== PROFILE PAGE ========== -->
   <div id="page-profile" class="page">
     <main>
       <div class="card">
@@ -814,8 +811,7 @@
     <div class="brand">🌱 Task<span style="color:#65e8b9">Poa</span></div>
     Learn · Complete · Grow<br>
     © 2026 TaskPoa · Learning project · Demo only
-  </footer>
-<script>
+  </footer><script>
   (function () {
     "use strict";
 
@@ -945,8 +941,7 @@
       const d = document.createElement("div");
       d.textContent = str;
       return d.innerHTML;
-    }
-// ---------- Signup / Login ----------
+    }// ---------- Signup / Login ----------
     $("signupForm").addEventListener("submit", (e) => {
       e.preventDefault();
       const displayName = $("suDisplayName").value.trim();
