@@ -1,11 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#063b2e">
-  <meta name="description" content="TaskPoa – a learning demo for simple online tasks and rewards. Demo points only.">
+  <meta name="description" content="TaskPoa — a learning demo for tasks and demo points.">
   <title>TaskPoa | Learn. Complete. Grow.</title>
+
   <style>
     :root {
       --green: #087f5b;
@@ -15,16 +17,15 @@
       --ink: #17332d;
       --muted: #63766f;
       --line: #e1ece6;
-      --success: #0d9f6e;
-      --radius: 17px;
     }
 
     * { box-sizing: border-box; }
+
     html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      font-family: system-ui, -apple-system, Arial, sans-serif;
       color: var(--ink);
       background: #f4f8f6;
       line-height: 1.5;
@@ -32,14 +33,12 @@
 
     button, input { font: inherit; }
     button { cursor: pointer; }
-    button:focus-visible,
-    input:focus-visible,
-    a:focus-visible {
+
+    button:focus-visible, input:focus-visible, a:focus-visible {
       outline: 3px solid #5ce0ae;
       outline-offset: 2px;
     }
 
-    /* Header */
     header {
       background: var(--dark);
       color: white;
@@ -50,56 +49,71 @@
       gap: 15px;
       flex-wrap: wrap;
     }
-    .brand { font-size: 25px; font-weight: 850; letter-spacing: -1px; }
+
+    .brand {
+      font-size: 25px;
+      font-weight: 850;
+      letter-spacing: -1px;
+    }
+
     .brand span { color: #5ce0ae; }
-    .tagline { font-size: 12px; color: #b8e8d6; margin-top: 2px; }
+
+    .tagline {
+      font-size: 12px;
+      color: #b8e8d6;
+    }
+
     nav { display: flex; gap: 17px; flex-wrap: wrap; }
+
     nav a {
       color: white;
       text-decoration: none;
       font-size: 14px;
-      padding: 4px 0;
     }
+
     nav a:hover { color: #5ce0ae; }
 
-    /* Hero */
     .hero {
-      padding: 55px 6%;
+      padding: 50px 6%;
       background: linear-gradient(120deg, #042e25, #087f5b);
       color: white;
       display: grid;
-      grid-template-columns: 1.3fr 0.7fr;
+      grid-template-columns: 1.3fr .7fr;
       gap: 28px;
       align-items: center;
     }
+
     .eyebrow {
       color: #79f0c4;
       font-weight: 800;
       letter-spacing: 2px;
       font-size: 12px;
-      text-transform: uppercase;
     }
+
     .hero h1 {
       font-size: clamp(34px, 6vw, 56px);
       line-height: 1.08;
       margin: 14px 0;
       letter-spacing: -1.8px;
     }
+
     .hero h1 span { color: #65e8b9; }
-    .hero p { line-height: 1.7; color: #d7eee5; max-width: 42ch; }
+
+    .hero p {
+      line-height: 1.7;
+      color: #d7eee5;
+    }
+
     .primary {
       display: inline-block;
       background: #29ce91;
       color: #063b2e;
-      border: 0;
       padding: 13px 21px;
       border-radius: 30px;
       font-weight: 800;
       text-decoration: none;
       margin-top: 10px;
-      transition: transform 0.15s ease, background 0.15s ease;
     }
-    .primary:hover { background: #3dd9a0; transform: translateY(-1px); }
 
     .points-card {
       background: #ffffff14;
@@ -108,8 +122,15 @@
       padding: 24px;
       backdrop-filter: blur(5px);
     }
+
     .coin { font-size: 35px; }
-    .points { font-size: 40px; font-weight: 850; margin: 5px 0; }
+
+    .points {
+      font-size: 40px;
+      font-weight: 850;
+      margin: 5px 0;
+    }
+
     .pill {
       display: inline-block;
       padding: 5px 10px;
@@ -119,148 +140,84 @@
       font-size: 12px;
       font-weight: 800;
     }
+
     .pill.gold {
       background: #fff3d0;
       color: #8a6a00;
     }
 
-    /* Main layout */
     main {
       max-width: 1050px;
       margin: auto;
       padding: 24px 16px 45px;
     }
 
-    /* Dashboard card */
-    .dashboard-card {
+    .dashboard, .profile, .info, .task {
       background: white;
       border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 24px;
-      margin-bottom: 28px;
+      border-radius: 17px;
       box-shadow: 0 4px 18px #153c2d08;
     }
-    .dashboard-card .label {
+
+    .dashboard {
+      padding: 24px;
+      margin: 24px auto 0;
+      max-width: 1050px;
+    }
+
+    .label {
       color: var(--green);
       font-weight: 800;
       font-size: 13px;
-      letter-spacing: 0.5px;
       text-transform: uppercase;
+      letter-spacing: .5px;
       margin: 0 0 6px;
     }
-    .dashboard-stats {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 18px;
-    }
-    .stat {
-      background: var(--mint);
-      padding: 14px;
-      border-radius: 12px;
-      flex: 1;
-      min-width: 130px;
-    }
-    .stat.muted { background: #f4f8f6; }
-    .stat small {
-      display: block;
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 4px;
-    }
-    .stat .value {
-      font-size: 25px;
-      font-weight: 800;
-      color: var(--green);
-    }
-    .stat.muted .value { color: var(--ink); font-size: 20px; }
 
-    /* Notice */
-    .notice {
-      background: #fff5d9;
-      border: 1px solid #f3d27c;
-      border-radius: 13px;
-      padding: 15px;
-      margin-bottom: 28px;
-      color: #6d4b05;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    /* Section heads */
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 18px;
-    }
-    h2 {
+    .dashboard h2, h2 {
       margin: 0;
       font-size: 25px;
-      letter-spacing: -0.5px;
+      letter-spacing: -.5px;
     }
+
     .sub {
       color: var(--muted);
       margin: 7px 0 0;
       font-size: 14px;
     }
 
-    /* Tasks */
-    .task-list { display: grid; gap: 14px; }
-    .task {
-      display: grid;
-      grid-template-columns: 64px 1fr auto;
-      gap: 17px;
-      align-items: center;
-      padding: 20px;
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: 0 5px 20px #153c2d08;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-    .task.completed {
-      border-color: #a8e6cf;
-      background: #f7fdfb;
-    }
-    .task-icon {
-      width: 60px;
-      height: 60px;
-      border-radius: 17px;
-      background: var(--mint);
-      display: grid;
-      place-items: center;
-      font-size: 28px;
-      flex-shrink: 0;
-    }
-    .task h3 {
-      margin: 0 0 7px;
-      font-size: 17px;
+    .stats {
       display: flex;
-      align-items: center;
-      gap: 8px;
+      gap: 12px;
       flex-wrap: wrap;
+      margin-top: 18px;
     }
-    .task p {
-      margin: 0 0 12px;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.5;
+
+    .stat {
+      flex: 1;
+      min-width: 130px;
+      background: var(--mint);
+      padding: 14px;
+      border-radius: 12px;
     }
-    .reward {
-      text-align: center;
-      color: #a66c00;
-      font-weight: 850;
-      min-width: 65px;
-      font-size: 21px;
-    }
-    .reward small {
+
+    .stat.muted { background: #f4f8f6; }
+
+    .stat small {
       display: block;
-      font-size: 12px;
       color: var(--muted);
-      font-weight: 500;
+      font-size: 12px;
+    }
+
+    .stat .value {
+      font-size: 25px;
+      font-weight: 800;
+      color: var(--green);
+    }
+
+    .stat.muted .value {
+      font-size: 20px;
+      color: var(--ink);
     }
 
     .action {
@@ -270,40 +227,56 @@
       border-radius: 9px;
       padding: 11px 15px;
       font-weight: 750;
-      transition: background 0.15s ease, opacity 0.15s ease;
     }
+
     .action:hover:not(:disabled) { background: #0a9469; }
+
     .action:disabled {
       background: #e1eee8;
       color: #477363;
       cursor: not-allowed;
     }
-    .action.secondary {
-      background: transparent;
+
+    .secondary {
+      background: white;
       color: var(--green);
-      border: 1.5px solid var(--green);
+      border: 1px solid var(--green);
       margin-top: 8px;
     }
-    .action.secondary:hover:not(:disabled) {
-      background: var(--mint);
+
+    .danger {
+      background: white;
+      color: #a66c00;
+      border: 1px solid #f3d27c;
     }
-    .action.danger {
-      background: transparent;
-      color: #b45309;
-      border: 1.5px solid #f3d27c;
+
+    .notice {
+      background: #fff5d9;
+      border: 1px solid #f3d27c;
+      border-radius: 13px;
+      padding: 15px;
+      margin-bottom: 30px;
+      color: #6d4b05;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .profile { padding: 22px; margin-bottom: 24px; }
+
+    .profile label {
+      display: block;
       font-size: 13px;
-      padding: 8px 12px;
+      font-weight: 650;
+      margin: 12px 0 4px;
     }
-    .action.danger:hover { background: #fff5d9; }
 
     input[type="text"] {
       width: 100%;
-      max-width: 310px;
+      max-width: 350px;
       padding: 12px;
       border: 1px solid #ccddd4;
       border-radius: 9px;
-      margin: 0 5px 8px 0;
-      outline-color: var(--green);
+      margin: 0 0 10px;
     }
 
     .message {
@@ -312,73 +285,85 @@
       color: var(--green);
       min-height: 1.2em;
     }
+
     .message.error { color: #b45309; }
-    .message.success { color: var(--success); font-weight: 600; }
+    .message.success { color: #0d9f6e; font-weight: 600; }
 
-    .task-form {
+    .section-head {
       display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
       flex-wrap: wrap;
-      gap: 8px;
-      align-items: flex-start;
+      margin-bottom: 18px;
     }
-    .task-form input { margin: 0; }
 
-    /* Profile */
-    .profile-section {
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 22px;
-      margin-bottom: 24px;
+    .task-list { display: grid; gap: 14px; }
+
+    .task {
+      display: grid;
+      grid-template-columns: 60px 1fr auto;
+      gap: 17px;
+      align-items: center;
+      padding: 20px;
     }
-    .profile-section label {
+
+    .task.completed {
+      border-color: #a8e6cf;
+      background: #f7fdfb;
+    }
+
+    .task-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 17px;
+      background: var(--mint);
+      display: grid;
+      place-items: center;
+      font-size: 28px;
+    }
+
+    .task h3 { margin: 0 0 7px; font-size: 17px; }
+    .task p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+    .reward {
+      text-align: center;
+      color: #a66c00;
+      font-weight: 850;
+      min-width: 65px;
+      font-size: 21px;
+    }
+
+    .reward small {
       display: block;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 4px;
-      color: var(--ink);
-    }
-    .profile-section input {
-      margin-bottom: 12px;
-      max-width: 100%;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
     }
 
-    /* Info grid */
+    .celebrate {
+      display: none;
+      background: var(--mint);
+      border: 1px solid #a8e6cf;
+      padding: 15px;
+      margin-bottom: 18px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .celebrate.show { display: block; }
+
     .info-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 15px;
       margin-top: 28px;
     }
-    .info {
-      background: white;
-      border: 1px solid var(--line);
-      padding: 22px;
-      border-radius: var(--radius);
-    }
-    .info.dark {
-      background: var(--dark);
-      color: white;
-      border-color: transparent;
-    }
+
+    .info { padding: 22px; }
+    .info.dark { background: var(--dark); color: white; }
     .info p, .info li { font-size: 14px; line-height: 1.7; }
-    .info ul { padding-left: 20px; margin: 10px 0 0; }
 
-    /* Celebration banner */
-    .celebrate {
-      display: none;
-      background: linear-gradient(135deg, #d9f8eb, #e8fff5);
-      border: 1px solid #a8e6cf;
-      border-radius: 13px;
-      padding: 16px 18px;
-      margin-bottom: 20px;
-      color: var(--dark);
-      font-weight: 600;
-      text-align: center;
-    }
-    .celebrate.show { display: block; }
-
-    /* Footer */
     footer {
       text-align: center;
       background: #032b22;
@@ -388,94 +373,59 @@
       line-height: 1.8;
     }
 
-    /* Utilities */
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
-    }
     [hidden] { display: none !important; }
 
-    /* Responsive */
     @media (max-width: 650px) {
       header { align-items: flex-start; flex-direction: column; }
-      nav { gap: 14px; }
-      .hero {
-        grid-template-columns: 1fr;
-        padding: 36px 6%;
-      }
-      .task {
-        grid-template-columns: 48px 1fr;
-        gap: 12px;
-        padding: 15px;
-      }
-      .task-icon {
-        width: 46px;
-        height: 46px;
-        font-size: 23px;
-      }
-      .reward {
-        grid-column: 2;
-        text-align: left;
-        font-size: 16px;
-        margin-top: 4px;
-      }
+      .hero { grid-template-columns: 1fr; padding: 36px 6%; }
+      .task { grid-template-columns: 46px 1fr; gap: 12px; padding: 15px; }
+      .task-icon { width: 46px; height: 46px; font-size: 23px; }
+      .reward { grid-column: 2; text-align: left; font-size: 16px; }
       .info-grid { grid-template-columns: 1fr; }
-      h2 { font-size: 22px; }
-      .task-form { flex-direction: column; }
-      .task-form input { max-width: 100%; }
+      h2, .dashboard h2 { font-size: 22px; }
     }
   </style>
 </head>
+
 <body>
   <header>
     <div>
       <div class="brand">🌱 Task<span>Poa</span></div>
       <div class="tagline">LEARN · COMPLETE · GROW</div>
     </div>
-    <nav aria-label="Main">
+    <nav aria-label="Main navigation">
       <a href="#home">Home</a>
+      <a href="#dashboard">Dashboard</a>
       <a href="#tasks">Tasks</a>
       <a href="#about">About</a>
     </nav>
   </header>
 
-  <!-- Dashboard -->
-  <section id="dashboard" class="dashboard-card" style="max-width:1050px;margin:20px auto;padding:24px 16px;" aria-labelledby="dashboardGreeting">
-    <div style="max-width:1050px;margin:0 auto;">
-      <p class="label">Your personal dashboard</p>
-      <h2 id="dashboardGreeting">Welcome to TaskPoa! 🌱</h2>
-      <p id="dashboardMessage" style="color:var(--muted);line-height:1.6;margin:8px 0 0;">
-        Learn something new and keep growing.
-      </p>
+  <section class="dashboard" id="dashboard">
+    <p class="label">Your personal dashboard</p>
+    <h2 id="dashboardGreeting">Welcome to TaskPoa! 🌱</h2>
+    <p class="sub" id="dashboardMessage">Learn something new and keep growing.</p>
 
-      <div class="dashboard-stats">
-        <div class="stat">
-          <small>Demo balance</small>
-          <div class="value"><span id="dashboardPoints">200</span> pts</div>
-        </div>
-        <div class="stat muted">
-          <small>Task progress</small>
-          <div class="value" id="dashboardProgress">0 of 2</div>
-        </div>
+    <div class="stats">
+      <div class="stat">
+        <small>Demo balance</small>
+        <div class="value"><span id="dashboardPoints">200</span> pts</div>
       </div>
-
-      <a href="#tasks" class="action" style="display:inline-block;margin-top:18px;text-decoration:none;">
-        Continue learning →
-      </a>
+      <div class="stat muted">
+        <small>Task progress</small>
+        <div class="value" id="dashboardProgress">0 of 2</div>
+      </div>
     </div>
+
+    <a class="action" href="#tasks"
+       style="display:inline-block;margin-top:18px;text-decoration:none">
+      Continue learning →
+    </a>
   </section>
 
-  <!-- Hero -->
   <section class="hero" id="home">
     <div>
-      <div class="eyebrow">Welcome to TaskPoa</div>
+      <div class="eyebrow">WELCOME TO TASKPOA</div>
       <h1>Small Tasks.<br><span>Big Opportunities.</span></h1>
       <p>Explore fun activities, learn useful skills and celebrate every step forward.</p>
       <a class="primary" href="#tasks">Explore tasks →</a>
@@ -485,38 +435,25 @@
       <div>Your demo balance</div>
       <div class="points"><span id="points">200</span></div>
       <span class="pill">DEMO POINTS</span>
-      <p style="margin:10px 0 0;font-size:14px;opacity:0.9;">Keep learning and complete the activities below!</p>
+      <p>Keep learning and complete the activities below!</p>
     </div>
   </section>
 
   <main>
-    <!-- Profile -->
-    <section class="profile-section" id="profile" aria-labelledby="profileHeading">
-      <h2 id="profileHeading">👤 Your TaskPoa Profile</h2>
-      <p class="sub">Create your local demo profile (stored only on this device).</p>
+    <section class="profile" id="profile">
+      <h2>👤 Your TaskPoa Profile</h2>
+      <p class="sub">Your profile is saved locally in this browser.</p>
 
-      <form id="profileForm" novalidate>
+      <form id="profileForm">
         <label for="displayName">Display name</label>
-        <input
-          id="displayName"
-          type="text"
-          maxlength="30"
-          placeholder="e.g. Japheth"
-          autocomplete="nickname"
-          required
-        >
+        <input id="displayName" type="text" maxlength="30"
+               placeholder="e.g. Japheth" autocomplete="nickname" required>
 
         <label for="username">Username</label>
-        <input
-          id="username"
-          type="text"
-          maxlength="20"
-          pattern="[A-Za-z0-9_]{3,20}"
-          placeholder="e.g. Japhee_01"
-          title="Use 3–20 letters, numbers or underscores"
-          autocomplete="username"
-          required
-        >
+        <input id="username" type="text" maxlength="20"
+               pattern="[A-Za-z0-9_]{3,20}"
+               title="Use 3–20 letters, numbers or underscores"
+               placeholder="e.g. Japhee_01" autocomplete="username" required>
 
         <button class="action" type="submit">Save profile</button>
       </form>
@@ -533,16 +470,15 @@
     </section>
 
     <div class="notice" role="note">
-      <strong>⚠️ Demo only:</strong> These points have no cash value
-      and cannot be withdrawn. This is a learning project, not a live
-      rewards service. No deposits or payments are required.
+      <strong>⚠️ Demo only:</strong> These points have no cash value and
+      cannot be withdrawn. This is a learning project, not a live rewards
+      service. No deposits or payments are required.
     </div>
 
-    <!-- Tasks -->
-    <section id="tasks" aria-labelledby="tasksHeading">
+    <section id="tasks">
       <div class="section-head">
         <div>
-          <h2 id="tasksHeading">📋 Available Tasks</h2>
+          <h2>📋 Available Tasks</h2>
           <p class="sub">Learn something new, one task at a time.</p>
         </div>
         <span class="pill" id="progress">0 of 2 completed</span>
@@ -553,26 +489,19 @@
       </div>
 
       <div class="task-list">
-        <!-- Task 1: Quiz -->
-        <article class="task" id="task-quiz" data-task="quiz">
+        <article class="task" id="task-quiz">
           <div class="task-icon" aria-hidden="true">🧠</div>
           <div>
-            <h3>
-              Task 1: Quick Quiz
+            <h3>Task 1: Quick Quiz
               <span class="pill">QUIZ</span>
               <span class="pill gold" id="quizBadge" hidden>COMPLETED</span>
             </h3>
             <p>What is the capital city of Kenya?</p>
 
-            <form id="quizForm" class="task-form">
-              <label for="answer" class="sr-only">Your answer</label>
-              <input
-                id="answer"
-                type="text"
-                placeholder="Type your answer"
-                autocomplete="off"
-                aria-describedby="quizMessage"
-              >
+            <form id="quizForm">
+              <label for="answer" hidden>Your answer</label>
+              <input id="answer" type="text" placeholder="Type your answer"
+                     autocomplete="off" required>
               <button class="action" id="quizButton" type="submit">
                 Submit answer
               </button>
@@ -582,16 +511,15 @@
           <div class="reward">+10<small>demo points</small></div>
         </article>
 
-        <!-- Task 2: Learning -->
-        <article class="task" id="task-learn" data-task="learn">
-          <div class="task-icon" style="background:#e1eaff;" aria-hidden="true">📚</div>
+        <article class="task" id="task-learn">
+          <div class="task-icon" style="background:#e1eaff" aria-hidden="true">📚</div>
           <div>
-            <h3>
-              Task 2: Learning Task
+            <h3>Task 2: Learning Task
               <span class="pill">LEARN</span>
               <span class="pill gold" id="learnBadge" hidden>COMPLETED</span>
             </h3>
-            <p>Learning a little every day helps build knowledge and confidence. Click below when you are ready.</p>
+            <p>Learning a little every day helps build knowledge and confidence.
+               Click below when you are ready.</p>
             <button class="action" id="learnButton" type="button">
               ✓ Complete task
             </button>
@@ -601,14 +529,14 @@
         </article>
       </div>
 
-      <div style="margin-top:20px;">
-        <button class="action danger" id="resetButton" type="button" title="Resets points and task progress. Profile is kept.">
-          Reset demo progress
-        </button>
-      </div>
+      <button class="action danger" id="resetButton" type="button"
+              style="margin-top:20px">
+        Reset demo progress
+      </button>
+      <p class="sub">Resetting clears task progress and returns the demo balance
+         to 200 points. Your profile is kept.</p>
     </section>
 
-    <!-- About -->
     <section class="info-grid" id="about">
       <div class="info dark">
         <h2>🎯 Why TaskPoa?</h2>
@@ -622,110 +550,272 @@
       <div class="info">
         <h2>🌿 About TaskPoa</h2>
         <p>TaskPoa is a learning project exploring simple online tasks
-        and rewards. This version is a demonstration, not a live
-        rewards service.</p>
+           and rewards. This version is a demonstration, not a live
+           rewards service.</p>
         <p>Our motto: <strong>Better skills. Brighter tomorrows.</strong></p>
       </div>
     </section>
   </main>
 
   <footer>
-    <div class="brand">🌱 Task<span style="color:#65e8b9">Poa</span></div>
+    <div class="brand">🌱 Task<span>Poa</span></div>
     Learn · Complete · Grow<br>
     © 2026 TaskPoa · Learning project
   </footer>
 
   <script>
-    (function () {
-      "use strict";
+    "use strict";
 
-      const STORAGE_KEY = "taskpoa_demo_v1";
-      const PROFILE_KEY = "taskpoa_profile_v1";
-      const TOTAL_TASKS = 2;
-      const BASE_POINTS = 200;
-      const POINTS_PER_TASK = 10;
+    const STORAGE_KEY = "taskpoa_demo_v1";
+    const PROFILE_KEY = "taskpoa_profile_v1";
+    const BASE_POINTS = 200;
+    const REWARD = 10;
 
-      // ---------- Helpers ----------
-      function $(id) {
-        return document.getElementById(id);
+    const $ = id => document.getElementById(id);
+
+    function readStorage(key) {
+      try {
+        const value = localStorage.getItem(key);
+        return value ? JSON.parse(value) : null;
+      } catch (error) {
+        console.warn("Unable to read local storage.", error);
+        return null;
       }
+    }
 
-      function safeParse(json) {
-        try {
-          return JSON.parse(json);
-        } catch {
-          return null;
-        }
+    function writeStorage(key, value) {
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+        return true;
+      } catch (error) {
+        console.warn("Unable to save local storage.", error);
+        return false;
       }
+    }
 
-      // ---------- State ----------
-      function loadDemoState() {
-        try {
-          const saved = localStorage.getItem(STORAGE_KEY);
-          if (!saved) return defaultState();
+    function defaultState() {
+      return {
+        quizDone: false,
+        learningDone: false,
+        points: BASE_POINTS
+      };
+    }
 
-          const data = safeParse(saved);
-          if (!data) return defaultState();
+    function loadDemoState() {
+      const data = readStorage(STORAGE_KEY);
 
-          const quizDone = Boolean(data.quizDone);
-          const learningDone = Boolean(data.learningDone);
-          const expectedPoints =
-            BASE_POINTS +
-            (quizDone ? POINTS_PER_TASK : 0) +
-            (learningDone ? POINTS_PER_TASK : 0);
-
-          // Integrity check – reject tampered values
-          if (
-            Number.isSafeInteger(data.points) &&
-            data.points === expectedPoints &&
-            data.points >= BASE_POINTS &&
-            data.points <= BASE_POINTS + TOTAL_TASKS * POINTS_PER_TASK
-          ) {
-            return {
-              points: data.points,
-              quizDone,
-              learningDone
-            };
-          }
-        } catch (e) {
-          console.warn("Could not load demo progress.", e);
-        }
+      if (!data ||
+          typeof data.quizDone !== "boolean" ||
+          typeof data.learningDone !== "boolean") {
         return defaultState();
       }
 
-      function defaultState() {
-        return { points: BASE_POINTS, quizDone: false, learningDone: false };
-      }
+      const expected = BASE_POINTS
+        + (data.quizDone ? REWARD : 0)
+        + (data.learningDone ? REWARD : 0);
 
-      function loadProfile() {
-        try {
-          const saved = localStorage.getItem(PROFILE_KEY);
-          if (!saved) return null;
+      if (data.points !== expected) return defaultState();
 
-          const profile = safeParse(saved);
-          if (
-            profile &&
-            typeof profile.displayName === "string" &&
-            profile.displayName.trim() &&
-            profile.displayName.length <= 30 &&
-            typeof profile.username === "string" &&
-            /^[A-Za-z0-9_]{3,20}$/.test(profile.username)
-          ) {
-            return {
-              displayName: profile.displayName.trim(),
-              username: profile.username
-            };
-          }
-        } catch (e) {
-          console.warn("Could not load profile.", e);
-        }
+      return {
+        quizDone: data.quizDone,
+        learningDone: data.learningDone,
+        points: expected
+      };
+    }
+
+    function loadProfile() {
+      const data = readStorage(PROFILE_KEY);
+
+      if (!data ||
+          typeof data.displayName !== "string" ||
+          !data.displayName.trim() ||
+          data.displayName.trim().length > 30 ||
+          typeof data.username !== "string" ||
+          !/^[A-Za-z0-9_]{3,20}$/.test(data.username)) {
         return null;
       }
 
-      let state = loadDemoState();
-      let points = state.points;
-      let quizDone = state.quizDone;
-      let learningDone = state.learningDone;
+      return {
+        displayName: data.displayName.trim(),
+        username: data.username
+      };
+    }
 
-      function saveDemoState() {
-        try {
+    let state = loadDemoState();
+    let profile = loadProfile();
+
+    function saveState() {
+      return writeStorage(STORAGE_KEY, state);
+    }
+
+    function updateProfileDisplay() {
+      const form = $("profileForm");
+      const display = $("profileDisplay");
+
+      if (profile) {
+        $("dashboardGreeting").textContent =
+          "Welcome back, " + profile.displayName + "! 🌱";
+        $("dashboardMessage").textContent =
+          "Great to see you, @" + profile.username +
+          ". Keep learning and growing!";
+        $("shownDisplayName").textContent = profile.displayName;
+        $("shownUsername").textContent = "@" + profile.username;
+
+        form.hidden = true;
+        display.hidden = false;
+      } else {
+        $("dashboardGreeting").textContent = "Welcome to TaskPoa! 🌱";
+        $("dashboardMessage").textContent =
+          "Create your profile and start learning.";
+        form.hidden = false;
+        display.hidden = true;
+      }
+    }
+
+    function updateDisplay() {
+      const completed = Number(state.quizDone) +
+                        Number(state.learningDone);
+
+      $("points").textContent = state.points;
+      $("dashboardPoints").textContent = state.points;
+      $("progress").textContent = completed + " of 2 completed";
+      $("dashboardProgress").textContent = completed + " of 2";
+
+      $("quizButton").disabled = state.quizDone;
+      $("answer").disabled = state.quizDone;
+      $("learnButton").disabled = state.learningDone;
+
+      $("quizBadge").hidden = !state.quizDone;
+      $("learnBadge").hidden = !state.learningDone;
+
+      $("task-quiz").classList.toggle("completed", state.quizDone);
+      $("task-learn").classList.toggle("completed", state.learningDone);
+
+      $("celebrateBanner").classList.toggle("show", completed === 2);
+
+      if (state.quizDone) {
+        $("quizMessage").textContent = "Quiz completed! Demo progress restored.";
+      }
+
+      if (state.learningDone) {
+        $("learnMessage").textContent =
+          "Learning task completed! Demo progress restored.";
+      }
+    }
+
+    $("profileForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const displayName = $("displayName").value.trim();
+      const username = $("username").value.trim();
+
+      if (!displayName || displayName.length > 30) {
+        $("profileMessage").textContent =
+          "Enter a display name of 1–30 characters.";
+        $("profileMessage").className = "message error";
+        return;
+      }
+
+      if (!/^[A-Za-z0-9_]{3,20}$/.test(username)) {
+        $("profileMessage").textContent =
+          "Username must have 3–20 letters, numbers or underscores.";
+        $("profileMessage").className = "message error";
+        return;
+      }
+
+      const newProfile = { displayName, username };
+
+      if (!writeStorage(PROFILE_KEY, newProfile)) {
+        $("profileMessage").textContent =
+          "Could not save your profile. Check browser storage settings.";
+        $("profileMessage").className = "message error";
+        return;
+      }
+
+      profile = newProfile;
+      $("profileMessage").textContent = "Profile saved successfully!";
+      $("profileMessage").className = "message success";
+
+      updateProfileDisplay();
+    });
+
+    $("editProfileButton").addEventListener("click", function () {
+      if (profile) {
+        $("displayName").value = profile.displayName;
+        $("username").value = profile.username;
+      }
+
+      $("profileForm").hidden = false;
+      $("profileDisplay").hidden = true;
+      $("profileMessage").textContent = "";
+      $("displayName").focus();
+    });
+
+    $("quizForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      if (state.quizDone) return;
+
+      const answer = $("answer").value.trim().toLowerCase();
+
+      if (answer !== "nairobi") {
+        $("quizMessage").textContent = "Not quite. Try again!";
+        $("quizMessage").className = "message error";
+        return;
+      }
+
+      state.quizDone = true;
+      state.points += REWARD;
+
+      const saved = saveState();
+      updateDisplay();
+
+      $("quizMessage").textContent = saved
+        ? "Correct! 10 demo points saved 🎉"
+        : "Correct! Points updated, but the browser could not save them.";
+      $("quizMessage").className = saved
+        ? "message success" : "message error";
+
+      $("answer").value = "";
+    });
+
+    $("learnButton").addEventListener("click", function () {
+      if (state.learningDone) return;
+
+      state.learningDone = true;
+      state.points += REWARD;
+
+      const saved = saveState();
+      updateDisplay();
+
+      $("learnMessage").textContent = saved
+        ? "Well done! 10 demo points saved 🎉"
+        : "Task completed, but the browser could not save the points.";
+      $("learnMessage").className = saved
+        ? "message success" : "message error";
+    });
+
+    $("resetButton").addEventListener("click", function () {
+      if (!window.confirm(
+        "Reset task progress and return to 200 demo points? Your profile will be kept."
+      )) return;
+
+      state = defaultState();
+
+      if (!saveState()) {
+        $("quizMessage").textContent =
+          "Progress reset in this session, but could not be saved.";
+        $("quizMessage").className = "message error";
+      } else {
+        $("quizMessage").textContent = "";
+        $("learnMessage").textContent = "";
+      }
+
+      updateDisplay();
+    });
+
+    updateProfileDisplay();
+    updateDisplay();
+  </script>
+</body>
+</html>
