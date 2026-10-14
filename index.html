@@ -275,45 +275,113 @@ footer {
   © 2026 TaskPoa · Learning project
 </footer>
 
+
 <script>
-let points = 200;
-let quizDone = false;
-let learningDone = false;
+const STORAGE_KEY = "taskpoa_demo_v1";
+
+function loadDemoState() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+
+    if (saved) {
+      const data = JSON.parse(saved);
+
+      if (
+        Number.isSafeInteger(data.points) &&
+        data.points >= 200 &&
+        data.points <= 1000000 &&
+        typeof data.quizDone === "boolean" &&
+        typeof data.learningDone === "boolean"
+      ) {
+        return data;
+      }
+    }
+  } catch (error) {
+    console.log("Could not load saved demo points.");
+  }
+
+  return {
+    points: 200,
+    quizDone: false,
+    learningDone: false
+  };
+}
+
+let state = loadDemoState();
+let points = state.points;
+let quizDone = state.quizDone;
+let learningDone = state.learningDone;
+
+function saveDemoState() {
+  try {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        points: points,
+        quizDone: quizDone,
+        learningDone: learningDone
+      })
+    );
+  } catch (error) {
+    console.log("Demo points could not be saved.");
+  }
+}
 
 function updateDisplay() {
   document.getElementById("points").textContent = points;
+
   const completed = Number(quizDone) + Number(learningDone);
   document.getElementById("progress").textContent =
     completed + " of 2 completed";
+
+  document.getElementById("quizButton").disabled = quizDone;
+  document.getElementById("answer").disabled = quizDone;
+  document.getElementById("learnButton").disabled = learningDone;
+
+  if (quizDone) {
+    document.getElementById("quizMessage").textContent =
+      "Quiz completed! Demo points saved.";
+  }
+
+  if (learningDone) {
+    document.getElementById("learnMessage").textContent =
+      "Learning task completed! Demo points saved.";
+  }
 }
 
 function checkAnswer() {
   if (quizDone) return;
+
   const answer = document.getElementById("answer")
     .value.trim().toLowerCase();
-  const message = document.getElementById("quizMessage");
 
   if (answer === "nairobi") {
     points += 10;
     quizDone = true;
-    message.textContent = "Correct! You earned 10 demo points 🎉";
-    document.getElementById("quizButton").disabled = true;
-    document.getElementById("answer").disabled = true;
+    saveDemoState();
     updateDisplay();
+
+    document.getElementById("quizMessage").textContent =
+      "Correct! 10 demo points added and saved 🎉";
   } else {
-    message.textContent = "Not quite. Try again!";
+    document.getElementById("quizMessage").textContent =
+      "Not quite. Try again!";
   }
 }
 
 function completeLearning() {
   if (learningDone) return;
+
   points += 10;
   learningDone = true;
-  document.getElementById("learnMessage").textContent =
-    "Well done! You earned 10 demo points 🎉";
-  document.getElementById("learnButton").disabled = true;
+  saveDemoState();
   updateDisplay();
+
+  document.getElementById("learnMessage").textContent =
+    "Well done! 10 demo points added and saved 🎉";
 }
-</script>
+
+updateDisplay();
+<script>
 </body>
 </html>
