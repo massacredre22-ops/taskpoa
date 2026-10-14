@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskPoa - Learn and Earn</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f6fb;
+      color: #172033;
+    }
+    header {
+      background: #123c2c;
+      color: white;
+      padding: 22px 18px;
+    }
+    header h1 { margin: 0 0 6px; }
+    header p { margin: 0; }
+    main {
+      max-width: 650px;
+      margin: 22px auto;
+      padding: 0 15px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      margin-bottom: 16px;
+      border-radius: 14px;
+      box-shadow: 0 3px 12px #0000000d;
+    }
+    .balance {
+      background: #dff7e9;
+      border: 1px solid #b6e9cb;
+    }
+    .points {
+      font-size: 32px;
+      font-weight: bold;
+      color: #126b40;
+    }
+    button {
+      background: #147d4d;
+      color: white;
+      border: 0;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    button:disabled {
+      background: #7d8b83;
+      cursor: default;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccd3dd;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-top: 8px;
+    }
+    .notice {
+      background: #fff3cd;
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 14px;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #667085;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>TaskPoa 🌟</h1>
+    <p>Small tasks. New skills. A better tomorrow.</p>
+  </header>
+
+  <main>
+    <div class="card balance">
+      <h2>Your demo balance</h2>
+      <div class="points"><span id="points">200</span> points</div>
+      <p>Practice completing tasks and collecting points.</p>
+    </div>
+
+    <div class="notice">
+      <strong>Demo only:</strong> These points have no cash value
+      and cannot be withdrawn. No deposits or payments are required.
+    </div>
+
+    <div class="card">
+      <h2>🧠 Task 1: Quick quiz</h2>
+      <p>What is the capital city of Kenya?</p>
+      <input id="answer" placeholder="Type your answer">
+      <button id="quizButton" onclick="checkAnswer()">Submit answer</button>
+      <p id="quizMessage" aria-live="polite"></p>
+    </div>
+
+    <div class="card">
+      <h2>📚 Task 2: Learning task</h2>
+      <p>Read this tip: Learning a little every day builds knowledge.</p>
+      <button id="learnButton" onclick="completeLearning()">
+        Complete learning task (+10 points)
+      </button>
+      <p id="learnMessage" aria-live="polite"></p>
+    </div>
+
+    <div class="card">
+      <h2>ℹ️ About TaskPoa</h2>
+      <p>
+        TaskPoa is a learning project exploring simple online tasks
+        and rewards. This version is a demonstration, not a live
+        rewards service.
+      </p>
+    </div>
+  </main>
+
+  <footer>TaskPoa © 2026 · Learning project</footer>
+
+  <script>
+    let points = 200;
+    let quizDone = false;
+    let learningDone = false;
+
+    function updatePoints() {
+      document.getElementById("points").textContent = points;
+    }
+
+    function checkAnswer() {
+      if (quizDone) return;
+
+      const answer = document.getElementById("answer")
+        .value.trim().toLowerCase();
+      const message = document.getElementById("quizMessage");
+
+      if (answer === "nairobi") {
+        points += 10;
+        quizDone = true;
+        updatePoints();
+        message.textContent = "Correct! You earned 10 demo points.";
+        document.getElementById("quizButton").disabled = true;
+        document.getElementById("answer").disabled = true;
+      } else {
+        message.textContent = "Not quite. Try again!";
+      }
+    }
+
+    function completeLearning() {
+      if (learningDone) return;
+
+      points += 10;
+      learningDone = true;
+      updatePoints();
+      document.getElementById("learnMessage").textContent =
+        "Well done! You earned 10 demo points.";
+      document.getElementById("learnButton").disabled = true;
+    }
+  </script>
+</body>
+</html>
