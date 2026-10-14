@@ -321,7 +321,7 @@ function saveDemoState() {
         quizDone: quizDone,
         learningDone: learningDone
       })
-    );
+    );alert(localStorage.getItem(STORAGE_KEY));
   } catch (error) {
     console.log("Demo points could not be saved.");
   }
