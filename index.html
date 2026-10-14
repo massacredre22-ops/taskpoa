@@ -437,6 +437,91 @@ function completeLearning() {
 }
 
 updateDisplay();
+
+
+const PROFILE_KEY = "taskpoa_profile_v1";
+
+function loadProfile() {
+  try {
+    const saved = localStorage.getItem(PROFILE_KEY);
+    if (!saved) return null;
+
+    const profile = JSON.parse(saved);
+
+    if (
+      typeof profile.displayName === "string" &&
+      typeof profile.username === "string" &&
+      profile.displayName.length > 0 &&
+      /^[A-Za-z0-9_]{3,20}$/.test(profile.username)
+    ) {
+      return profile;
+    }
+  } catch (error) {
+    console.log("Could not load profile.");
+  }
+
+  return null;
+}
+
+function showProfile(profile) {
+  document.getElementById("displayName").value =
+    profile.displayName;
+  document.getElementById("username").value =
+    profile.username;
+
+  document.getElementById("shownDisplayName").textContent =
+    profile.displayName;
+  document.getElementById("shownUsername").textContent =
+    "@" + profile.username;
+
+  document.getElementById("profileDisplay").hidden = false;
+  document.getElementById("profileForm").hidden = true;
+  document.getElementById("profileMessage").textContent =
+    "Profile saved on this device.";
+}
+
+document.getElementById("profileForm").addEventListener(
+  "submit",
+  function (event) {
+    event.preventDefault();
+
+    const displayName =
+      document.getElementById("displayName").value.trim();
+    const username =
+      document.getElementById("username").value.trim();
+
+    if (!displayName || !/^[A-Za-z0-9_]{3,20}$/.test(username)) {
+      document.getElementById("profileMessage").textContent =
+        "Enter a name and a username with 3–20 letters, numbers or underscores.";
+      return;
+    }
+
+    const profile = { displayName, username };
+
+    try {
+      localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
+      showProfile(profile);
+    } catch (error) {
+      document.getElementById("profileMessage").textContent =
+        "Could not save. Check your browser storage settings.";
+    }
+  }
+);
+
+document.getElementById("editProfileButton").addEventListener(
+  "click",
+  function () {
+    document.getElementById("profileForm").hidden = false;
+    document.getElementById("profileDisplay").hidden = true;
+    document.getElementById("profileMessage").textContent =
+      "Edit your profile, then save again.";
+  }
+);
+
+const existingProfile = loadProfile();
+if (existingProfile) {
+  showProfile(existingProfile);
+}
 </script>
 </body>
 </html>
