@@ -1,13 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#063b2e">
-  <meta name="description" content="TaskPoa — a learning demo for tasks and demo points.">
+  <meta name="description" content="TaskPoa — Learn. Complete. Grow. A demo tasks & rewards learning project.">
   <title>TaskPoa | Learn. Complete. Grow.</title>
-
   <style>
     :root {
       --green: #087f5b;
@@ -17,805 +15,1331 @@
       --ink: #17332d;
       --muted: #63766f;
       --line: #e1ece6;
+      --danger: #c92a2a;
+      --success: #087f5b;
     }
 
-    * { box-sizing: border-box; }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-
     body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Arial, sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
       color: var(--ink);
       background: #f4f8f6;
       line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
-    button, input { font: inherit; }
-    button { cursor: pointer; }
-
-    button:focus-visible, input:focus-visible, a:focus-visible {
-      outline: 3px solid #5ce0ae;
-      outline-offset: 2px;
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; border: none; }
+    input, select, textarea {
+      width: 100%;
+      max-width: 360px;
+      padding: 12px 14px;
+      border: 1px solid #ccddd4;
+      border-radius: 10px;
+      outline: none;
+      margin-bottom: 12px;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(8, 127, 91, 0.2);
     }
 
+    /* Header */
     header {
       background: var(--dark);
       color: white;
-      padding: 17px 5%;
+      padding: 14px 5%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
       flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
     }
-
-    .brand {
-      font-size: 25px;
-      font-weight: 850;
-      letter-spacing: -1px;
-    }
-
+    .brand { font-size: 22px; font-weight: 850; letter-spacing: -0.8px; }
     .brand span { color: #5ce0ae; }
+    .tagline { font-size: 11px; color: #b8e8d6; letter-spacing: 1px; }
 
-    .tagline {
-      font-size: 12px;
-      color: #b8e8d6;
-    }
-
-    nav { display: flex; gap: 17px; flex-wrap: wrap; }
-
-    nav a {
+    nav { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+    nav a, .nav-btn {
       color: white;
       text-decoration: none;
-      font-size: 14px;
+      font-size: 13px;
+      padding: 7px 12px;
+      border-radius: 8px;
+      background: transparent;
+      transition: background 0.2s, color 0.2s;
+    }
+    nav a:hover, .nav-btn:hover, nav a.active {
+      background: rgba(92, 224, 174, 0.18);
+      color: #5ce0ae;
+    }
+    .auth-btns { display: flex; gap: 8px; }
+    .btn-outline {
+      border: 1px solid #5ce0ae;
+      color: #5ce0ae;
+      background: transparent;
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .btn-outline:hover { background: #5ce0ae; color: var(--dark); }
+    .btn-solid {
+      background: #29ce91;
+      color: var(--dark);
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .btn-solid:hover { background: #5ce0ae; }
+
+    /* Pages */
+    .page { display: none; animation: fadeIn 0.35s ease; }
+    .page.active { display: block; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    nav a:hover { color: #5ce0ae; }
+    main { flex: 1; max-width: 1050px; margin: 0 auto; padding: 24px 16px 50px; width: 100%; }
 
+    /* Hero */
     .hero {
-      padding: 50px 6%;
-      background: linear-gradient(120deg, #042e25, #087f5b);
+      padding: 48px 6%;
+      background: linear-gradient(125deg, #042e25, #087f5b);
       color: white;
       display: grid;
-      grid-template-columns: 1.3fr .7fr;
+      grid-template-columns: 1.3fr 0.7fr;
       gap: 28px;
       align-items: center;
+      border-radius: 0 0 24px 24px;
     }
-
     .eyebrow {
       color: #79f0c4;
       font-weight: 800;
       letter-spacing: 2px;
       font-size: 12px;
+      margin-bottom: 8px;
     }
-
     .hero h1 {
-      font-size: clamp(34px, 6vw, 56px);
-      line-height: 1.08;
-      margin: 14px 0;
-      letter-spacing: -1.8px;
+      font-size: clamp(32px, 5.5vw, 52px);
+      line-height: 1.1;
+      margin: 10px 0 14px;
+      letter-spacing: -1.5px;
     }
-
     .hero h1 span { color: #65e8b9; }
-
-    .hero p {
-      line-height: 1.7;
-      color: #d7eee5;
-    }
-
+    .hero p { color: #d7eee5; max-width: 480px; margin-bottom: 18px; }
     .primary {
       display: inline-block;
       background: #29ce91;
       color: #063b2e;
-      padding: 13px 21px;
+      padding: 13px 22px;
       border-radius: 30px;
       font-weight: 800;
       text-decoration: none;
-      margin-top: 10px;
+      transition: transform 0.15s, box-shadow 0.15s;
     }
+    .primary:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(41,206,145,0.35); }
 
     .points-card {
-      background: #ffffff14;
-      border: 1px solid #ffffff35;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.28);
       border-radius: 22px;
       padding: 24px;
-      backdrop-filter: blur(5px);
+      backdrop-filter: blur(8px);
+      text-align: center;
     }
-
-    .coin { font-size: 35px; }
-
-    .points {
-      font-size: 40px;
-      font-weight: 850;
-      margin: 5px 0;
-    }
-
+    .coin { font-size: 38px; margin-bottom: 6px; }
+    .points { font-size: 42px; font-weight: 850; margin: 4px 0; }
     .pill {
       display: inline-block;
-      padding: 5px 10px;
-      border-radius: 30px;
+      padding: 4px 10px;
+      border-radius: 20px;
       background: var(--mint);
       color: var(--green);
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 800;
+      letter-spacing: 0.5px;
     }
+    .pill.gold { background: #fff3cd; color: #856404; }
 
-    .pill.gold {
-      background: #fff3d0;
-      color: #8a6a00;
-    }
-
-    main {
-      max-width: 1050px;
-      margin: auto;
-      padding: 24px 16px 45px;
-    }
-
-    .dashboard, .profile, .info, .task {
+    /* Cards & sections */
+    .card {
       background: white;
       border: 1px solid var(--line);
-      border-radius: 17px;
-      box-shadow: 0 4px 18px #153c2d08;
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 16px rgba(21,60,45,0.05);
     }
-
-    .dashboard {
-      padding: 24px;
-      margin: 24px auto 0;
-      max-width: 1050px;
-    }
-
-    .label {
-      color: var(--green);
-      font-weight: 800;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: .5px;
-      margin: 0 0 6px;
-    }
-
-    .dashboard h2, h2 {
-      margin: 0;
-      font-size: 25px;
-      letter-spacing: -.5px;
-    }
-
-    .sub {
-      color: var(--muted);
-      margin: 7px 0 0;
-      font-size: 14px;
-    }
-
-    .stats {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 18px;
-    }
-
-    .stat {
-      flex: 1;
-      min-width: 130px;
-      background: var(--mint);
-      padding: 14px;
-      border-radius: 12px;
-    }
-
-    .stat.muted { background: #f4f8f6; }
-
-    .stat small {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .stat .value {
-      font-size: 25px;
-      font-weight: 800;
-      color: var(--green);
-    }
-
-    .stat.muted .value {
-      font-size: 20px;
-      color: var(--ink);
-    }
-
-    .action {
-      border: 0;
-      background: var(--green);
-      color: white;
-      border-radius: 9px;
-      padding: 11px 15px;
-      font-weight: 750;
-    }
-
-    .action:hover:not(:disabled) { background: #0a9469; }
-
-    .action:disabled {
-      background: #e1eee8;
-      color: #477363;
-      cursor: not-allowed;
-    }
-
-    .secondary {
-      background: white;
-      color: var(--green);
-      border: 1px solid var(--green);
-      margin-top: 8px;
-    }
-
-    .danger {
-      background: white;
-      color: #a66c00;
-      border: 1px solid #f3d27c;
-    }
-
-    .notice {
-      background: #fff5d9;
-      border: 1px solid #f3d27c;
-      border-radius: 13px;
-      padding: 15px;
-      margin-bottom: 30px;
-      color: #6d4b05;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .profile { padding: 22px; margin-bottom: 24px; }
-
-    .profile label {
-      display: block;
-      font-size: 13px;
-      font-weight: 650;
-      margin: 12px 0 4px;
-    }
-
-    input[type="text"] {
-      width: 100%;
-      max-width: 350px;
-      padding: 12px;
-      border: 1px solid #ccddd4;
-      border-radius: 9px;
-      margin: 0 0 10px;
-    }
-
-    .message {
-      font-size: 13px;
-      margin-top: 8px;
-      color: var(--green);
-      min-height: 1.2em;
-    }
-
-    .message.error { color: #b45309; }
-    .message.success { color: #0d9f6e; font-weight: 600; }
-
     .section-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 12px;
       flex-wrap: wrap;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
+    h2 { font-size: 24px; letter-spacing: -0.4px; margin-bottom: 4px; }
+    .sub { color: var(--muted); font-size: 14px; }
 
+    /* Dashboard */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin: 18px 0;
+    }
+    .stat-box {
+      background: var(--mint);
+      padding: 16px;
+      border-radius: 14px;
+      text-align: center;
+    }
+    .stat-box.muted { background: #f0f4f2; }
+    .stat-box small { display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+    .stat-box .value { font-size: 24px; font-weight: 800; color: var(--green); }
+
+    /* Tasks */
     .task-list { display: grid; gap: 14px; }
-
     .task {
       display: grid;
-      grid-template-columns: 60px 1fr auto;
-      gap: 17px;
-      align-items: center;
-      padding: 20px;
+      grid-template-columns: 56px 1fr auto;
+      gap: 16px;
+      align-items: start;
+      padding: 18px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      transition: border-color 0.25s, background 0.25s, transform 0.2s;
     }
-
+    .task:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(21,60,45,0.08); }
     .task.completed {
       border-color: #a8e6cf;
       background: #f7fdfb;
     }
-
     .task-icon {
-      width: 60px;
-      height: 60px;
-      border-radius: 17px;
+      width: 56px; height: 56px;
+      border-radius: 14px;
       background: var(--mint);
       display: grid;
       place-items: center;
-      font-size: 28px;
+      font-size: 26px;
+      flex-shrink: 0;
     }
-
-    .task h3 { margin: 0 0 7px; font-size: 17px; }
-    .task p { color: var(--muted); font-size: 14px; line-height: 1.6; }
-
+    .task h3 { font-size: 16px; margin-bottom: 6px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    .task p { color: var(--muted); font-size: 14px; margin-bottom: 10px; }
     .reward {
       text-align: center;
       color: #a66c00;
       font-weight: 850;
-      min-width: 65px;
-      font-size: 21px;
+      font-size: 18px;
+      min-width: 60px;
     }
+    .reward small { display: block; font-size: 11px; color: var(--muted); font-weight: 500; }
 
-    .reward small {
-      display: block;
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 500;
+    .action {
+      background: var(--green);
+      color: white;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 14px;
+      transition: background 0.2s, transform 0.15s;
     }
+    .action:hover:not(:disabled) { background: #065f46; transform: scale(1.02); }
+    .action:disabled {
+      background: #e1eee8;
+      color: #477363;
+      cursor: not-allowed;
+    }
+    .action.secondary {
+      background: #e8f5f0;
+      color: var(--green);
+    }
+    .action.secondary:hover { background: #d0ebe0; }
 
-    .celebrate {
-      display: none;
+    .message { font-size: 13px; margin-top: 8px; min-height: 18px; }
+    .message.success { color: var(--success); }
+    .message.error { color: var(--danger); }
+.action {
+      background: var(--green);
+      color: white;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 14px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .action:hover:not(:disabled) { background: #065f46; transform: scale(1.02); }
+    .action:disabled {
+      background: #e1eee8;
+      color: #477363;
+      cursor: not-allowed;
+    }
+    .action.secondary {
+      background: #e8f5f0;
+      color: var(--green);
+    }
+    .action.secondary:hover { background: #d0ebe0; }
+
+    .message { font-size: 13px; margin-top: 8px; min-height: 18px; }
+    .message.success { color: var(--success); }
+    .message.error { color: var(--danger); }
+
+    /* Profile */
+    .profile-header {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .avatar-wrap {
+      position: relative;
+      width: 100px;
+      height: 100px;
+    }
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
       background: var(--mint);
-      border: 1px solid #a8e6cf;
-      padding: 15px;
-      margin-bottom: 18px;
-      border-radius: 12px;
+      border: 3px solid var(--green);
+      display: grid;
+      place-items: center;
+      font-size: 40px;
+      overflow: hidden;
+    }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .avatar-upload {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--green);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      cursor: pointer;
+      border: 2px solid white;
+    }
+    #photoInput { display: none; }
+
+    .form-row { margin-bottom: 4px; }
+    label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; color: var(--ink); }
+
+    /* Auth pages */
+    .auth-box {
+      max-width: 420px;
+      margin: 40px auto;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 32px 28px;
+      box-shadow: 0 8px 32px rgba(21,60,45,0.08);
+    }
+    .auth-box h2 { text-align: center; margin-bottom: 6px; }
+    .auth-box .sub { text-align: center; margin-bottom: 24px; }
+    .auth-box .action { width: 100%; max-width: none; padding: 13px; margin-top: 8px; }
+    .switch-auth { text-align: center; margin-top: 18px; font-size: 14px; color: var(--muted); }
+    .switch-auth a { color: var(--green); font-weight: 700; cursor: pointer; text-decoration: none; }
+
+    /* Refer */
+    .refer-code {
+      background: var(--mint);
+      border: 2px dashed var(--green);
+      border-radius: 14px;
+      padding: 18px;
+      text-align: center;
+      margin: 16px 0;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: var(--green);
+      user-select: all;
+    }
+    .copy-btn { margin-top: 10px; }
+
+    /* WhatsApp */
+    .wa-card {
+      background: linear-gradient(135deg, #075e54, #128c7e);
+      color: white;
+      border-radius: 18px;
+      padding: 28px;
       text-align: center;
     }
+    .wa-card h2 { color: white; margin-bottom: 8px; }
+    .wa-card p { opacity: 0.9; margin-bottom: 18px; }
+    .wa-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #25d366;
+      color: #075e54;
+      padding: 14px 24px;
+      border-radius: 30px;
+      font-weight: 800;
+      text-decoration: none;
+      font-size: 16px;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .wa-btn:hover { transform: scale(1.04); box-shadow: 0 6px 20px rgba(37,211,102,0.4); }
 
-    .celebrate.show { display: block; }
+    /* Notice */
+    .notice {
+      background: #fff5d9;
+      border: 1px solid #f3d27c;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 22px;
+      color: #6d4b05;
+      font-size: 13px;
+      line-height: 1.6;
+    }
 
+    /* Info grid */
     .info-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 15px;
-      margin-top: 28px;
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .info { padding: 22px; border-radius: 16px; border: 1px solid var(--line); background: white; }
+    .info.dark { background: var(--dark); color: white; border: none; }
+    .info ul { padding-left: 18px; margin-top: 10px; }
+    .info li { margin-bottom: 6px; font-size: 14px; }
+
+    /* Celebration animation */
+    .celebration-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(6, 59, 46, 0.75);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      animation: fadeIn 0.3s ease;
+    }
+    .celebration-overlay.show { display: flex; }
+    .celebration-box {
+      background: white;
+      border-radius: 24px;
+      padding: 40px 36px;
+      text-align: center;
+      max-width: 360px;
+      animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes popIn {
+      from { transform: scale(0.6); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .celebration-box .emoji { font-size: 64px; margin-bottom: 12px; animation: bounce 0.8s ease infinite alternate; }
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-12px); }
+    }
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      animation: confettiFall 2.5s ease-out forwards;
+    }
+    @keyframes confettiFall {
+      0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
     }
 
-    .info { padding: 22px; }
-    .info.dark { background: var(--dark); color: white; }
-    .info p, .info li { font-size: 14px; line-height: 1.7; }
+    /* Refresh timer */
+    .refresh-bar {
+      background: #e8f5f0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--green);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .refresh-bar strong { font-weight: 800; }
 
+    /* Footer */
     footer {
       text-align: center;
       background: #032b22;
       color: #d1e8de;
-      padding: 25px 15px;
+      padding: 28px 16px;
       font-size: 13px;
       line-height: 1.8;
+      margin-top: auto;
     }
+    footer .brand { font-size: 18px; margin-bottom: 4px; }
+
+    /* User chip in header */
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.1);
+      padding: 4px 10px 4px 4px;
+      border-radius: 24px;
+      cursor: pointer;
+    }
+    .user-chip img, .user-chip .mini-avatar {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--mint);
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+    }
+    .user-chip span { font-size: 13px; font-weight: 600; max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
     [hidden] { display: none !important; }
 
-    @media (max-width: 650px) {
-      header { align-items: flex-start; flex-direction: column; }
-      .hero { grid-template-columns: 1fr; padding: 36px 6%; }
-      .task { grid-template-columns: 46px 1fr; gap: 12px; padding: 15px; }
-      .task-icon { width: 46px; height: 46px; font-size: 23px; }
-      .reward { grid-column: 2; text-align: left; font-size: 16px; }
+    @media (max-width: 700px) {
+      header { align-items: flex-start; }
+      .hero { grid-template-columns: 1fr; padding: 36px 5%; }
+      .task { grid-template-columns: 48px 1fr; }
+      .task-icon { width: 48px; height: 48px; font-size: 22px; }
+      .reward { grid-column: 2; text-align: left; font-size: 15px; margin-top: 4px; }
       .info-grid { grid-template-columns: 1fr; }
-      h2, .dashboard h2 { font-size: 22px; }
+      nav { gap: 4px; }
+      nav a, .nav-btn { padding: 6px 10px; font-size: 12px; }
     }
   </style>
 </head>
-
 <body>
+  <!-- Header -->
   <header>
     <div>
       <div class="brand">🌱 Task<span>Poa</span></div>
       <div class="tagline">LEARN · COMPLETE · GROW</div>
     </div>
-    <nav aria-label="Main navigation">
-      <a href="#home">Home</a>
-      <a href="#dashboard">Dashboard</a>
-      <a href="#tasks">Tasks</a>
-      <a href="#about">About</a>
+    <nav id="mainNav" aria-label="Main navigation">
+      <a href="#" data-page="home" class="active">Home</a>
+      <a href="#" data-page="tasks">Tasks</a>
+      <a href="#" data-page="refer">Refer & Earn</a>
+      <a href="#" data-page="community">Community</a>
+      <a href="#" data-page="about">About</a>
     </nav>
+    <div class="auth-btns" id="authArea">
+      <!-- filled by JS -->
+    </div>
   </header>
 
-  <section class="dashboard" id="dashboard">
-    <p class="label">Your personal dashboard</p>
-    <h2 id="dashboardGreeting">Welcome to TaskPoa! 🌱</h2>
-    <p class="sub" id="dashboardMessage">Learn something new and keep growing.</p>
-
-    <div class="stats">
-      <div class="stat">
-        <small>Demo balance</small>
-        <div class="value"><span id="dashboardPoints">200</span> pts</div>
+  <!-- ========== HOME PAGE ========== -->
+  <div id="page-home" class="page active">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">WELCOME TO TASKPOA</div>
+        <h1>Small Tasks.<br><span>Big Opportunities.</span></h1>
+        <p>Explore fun activities, learn useful skills and celebrate every step forward. Earn demo points, invite friends and grow together.</p>
+        <a class="primary" href="#" data-page="tasks">Explore tasks →</a>
       </div>
-      <div class="stat muted">
-        <small>Task progress</small>
-        <div class="value" id="dashboardProgress">0 of 2</div>
-      </div>
-    </div>
-
-    <a class="action" href="#tasks"
-       style="display:inline-block;margin-top:18px;text-decoration:none">
-      Continue learning →
-    </a>
-  </section>
-
-  <section class="hero" id="home">
-    <div>
-      <div class="eyebrow">WELCOME TO TASKPOA</div>
-      <h1>Small Tasks.<br><span>Big Opportunities.</span></h1>
-      <p>Explore fun activities, learn useful skills and celebrate every step forward.</p>
-      <a class="primary" href="#tasks">Explore tasks →</a>
-    </div>
-    <div class="points-card">
-      <div class="coin" aria-hidden="true">🏅</div>
-      <div>Your demo balance</div>
-      <div class="points"><span id="points">200</span></div>
-      <span class="pill">DEMO POINTS</span>
-      <p>Keep learning and complete the activities below!</p>
-    </div>
-  </section>
-
-  <main>
-    <section class="profile" id="profile">
-      <h2>👤 Your TaskPoa Profile</h2>
-      <p class="sub">Your profile is saved locally in this browser.</p>
-
-      <form id="profileForm">
-        <label for="displayName">Display name</label>
-        <input id="displayName" type="text" maxlength="30"
-               placeholder="e.g. Japheth" autocomplete="nickname" required>
-
-        <label for="username">Username</label>
-        <input id="username" type="text" maxlength="20"
-               pattern="[A-Za-z0-9_]{3,20}"
-               title="Use 3–20 letters, numbers or underscores"
-               placeholder="e.g. Japhee_01" autocomplete="username" required>
-
-        <button class="action" type="submit">Save profile</button>
-      </form>
-
-      <p class="message" id="profileMessage" aria-live="polite"></p>
-
-      <div id="profileDisplay" hidden>
-        <p>Welcome, <strong id="shownDisplayName"></strong>! 🌱</p>
-        <p>Your username: <strong id="shownUsername"></strong></p>
-        <button class="action secondary" id="editProfileButton" type="button">
-          Edit profile
-        </button>
+      <div class="points-card">
+        <div class="coin">🏅</div>
+        <div>Your demo balance</div>
+        <div class="points"><span id="homePoints">200</span></div>
+        <span class="pill">DEMO POINTS</span>
+        <p style="margin-top:10px;font-size:13px;opacity:0.9">Keep learning and complete the activities!</p>
       </div>
     </section>
 
-    <div class="notice" role="note">
-      <strong>⚠️ Demo only:</strong> These points have no cash value and
-      cannot be withdrawn. This is a learning project, not a live rewards
-      service. No deposits or payments are required.
-    </div>
+    <main>
+      <div class="card" id="homeDashboard">
+        <p class="eyebrow" style="color:var(--green)">YOUR DASHBOARD</p>
+        <h2 id="homeGreeting">Welcome to TaskPoa! 🌱</h2>
+        <p class="sub" id="homeMessage">Create an account or log in to save your progress and personalize your experience.</p>
+        <div class="dashboard-grid">
+          <div class="stat-box">
+            <small>Demo balance</small>
+            <div class="value"><span id="dashPoints">200</span> pts</div>
+          </div>
+          <div class="stat-box muted">
+            <small>Tasks completed</small>
+            <div class="value" id="dashProgress">0 / 12</div>
+          </div>
+          <div class="stat-box muted">
+            <small>Referrals</small>
+            <div class="value" id="dashReferrals">0</div>
+          </div>
+        </div>
+        <a class="action" href="#" data-page="tasks" style="display:inline-block;text-decoration:none;margin-top:8px">Continue learning →</a>
+      </div>
 
-    <section id="tasks">
+      <div class="notice">
+        <strong>⚠️ Demo only:</strong> These points have no cash value and cannot be withdrawn.
+        This is a learning project, not a live rewards service. No deposits or payments are required.
+      </div>
+    </main>
+  </div>
+
+  <!-- ========== TASKS PAGE ========== -->
+  <div id="page-tasks" class="page">
+    <main>
       <div class="section-head">
         <div>
           <h2>📋 Available Tasks</h2>
-          <p class="sub">Learn something new, one task at a time.</p>
+          <p class="sub">Learn something new, one task at a time. Tasks refresh every hour.</p>
         </div>
-        <span class="pill" id="progress">0 of 2 completed</span>
+        <span class="pill" id="taskProgressPill">0 of 12 completed</span>
       </div>
 
-      <div class="celebrate" id="celebrateBanner" role="status" aria-live="polite">
-        🎉 All demo tasks completed! Great job growing your skills.
+      <div class="refresh-bar" id="refreshBar">
+        <span>🔄 Next task refresh in <strong id="refreshCountdown">60:00</strong></span>
+        <button class="action secondary" id="manualRefreshBtn" type="button" style="padding:6px 12px;font-size:12px">Refresh now</button>
       </div>
 
-      <div class="task-list">
-        <article class="task" id="task-quiz">
-          <div class="task-icon" aria-hidden="true">🧠</div>
-          <div>
-            <h3>Task 1: Quick Quiz
-              <span class="pill">QUIZ</span>
-              <span class="pill gold" id="quizBadge" hidden>COMPLETED</span>
-            </h3>
-            <p>What is the capital city of Kenya?</p>
+      <div class="task-list" id="taskList">
+        <!-- tasks injected by JS -->
+      </div>
+    </main>
+  </div>
 
-            <form id="quizForm">
-              <label for="answer" hidden>Your answer</label>
-              <input id="answer" type="text" placeholder="Type your answer"
-                     autocomplete="off" required>
-              <button class="action" id="quizButton" type="submit">
-                Submit answer
-              </button>
-            </form>
-            <div class="message" id="quizMessage" aria-live="polite"></div>
-          </div>
-          <div class="reward">+10<small>demo points</small></div>
-        </article>
+  <!-- ========== REFER PAGE ========== -->
+  <div id="page-refer" class="page">
+    <main>
+      <div class="card">
+        <h2>🎁 Refer & Earn</h2>
+        <p class="sub">Invite friends to TaskPoa. When they create an account using your code, you both earn demo points!</p>
 
-        <article class="task" id="task-learn">
-          <div class="task-icon" style="background:#e1eaff" aria-hidden="true">📚</div>
-          <div>
-            <h3>Task 2: Learning Task
-              <span class="pill">LEARN</span>
-              <span class="pill gold" id="learnBadge" hidden>COMPLETED</span>
-            </h3>
-            <p>Learning a little every day helps build knowledge and confidence.
-               Click below when you are ready.</p>
-            <button class="action" id="learnButton" type="button">
-              ✓ Complete task
-            </button>
-            <div class="message" id="learnMessage" aria-live="polite"></div>
-          </div>
-          <div class="reward">+10<small>demo points</small></div>
-        </article>
+        <div style="margin-top:20px">
+          <label>Your referral code</label>
+          <div class="refer-code" id="referCodeDisplay">------</div>
+          <button class="action copy-btn" id="copyReferBtn" type="button">📋 Copy code</button>
+          <p class="message" id="copyMessage"></p>
+        </div>
+
+        <div style="margin-top:24px">
+          <h3 style="font-size:17px;margin-bottom:8px">How it works</h3>
+          <ul style="padding-left:20px;font-size:14px;color:var(--muted);line-height:1.8">
+            <li>Share your unique code with friends.</li>
+            <li>They enter it when creating an account.</li>
+            <li>You both receive <strong>+25 demo points</strong>.</li>
+            <li>Track your referral count on the dashboard.</li>
+          </ul>
+        </div>
+
+        <div style="margin-top:20px;background:var(--mint);padding:16px;border-radius:12px">
+          <strong>Your referrals:</strong> <span id="referCount">0</span>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ========== COMMUNITY (WhatsApp) PAGE ========== -->
+  <div id="page-community" class="page">
+    <main>
+      <div class="wa-card">
+        <div style="font-size:48px;margin-bottom:10px">💬</div>
+        <h2>Join our WhatsApp Group</h2>
+        <p>Connect with other learners, share tips, celebrate wins and stay motivated together.</p>
+        <a class="wa-btn" href="https://chat.whatsapp.com/L8HYMEGwebI0XAmFArDJ9m?s=cl&p=a&mlu=4&ilr=4" target="_blank" rel="noopener noreferrer">
+          <span style="font-size:22px">🟢</span> Join WhatsApp Group
+        </a>
+        <p style="margin-top:16px;font-size:12px;opacity:0.75">Tap to join the official TaskPoa learners group</p>
       </div>
 
-      <button class="action danger" id="resetButton" type="button"
-              style="margin-top:20px">
-        Reset demo progress
-      </button>
-      <p class="sub">Resetting clears task progress and returns the demo balance
-         to 200 points. Your profile is kept.</p>
-    </section>
-
-    <section class="info-grid" id="about">
-      <div class="info dark">
-        <h2>🎯 Why TaskPoa?</h2>
-        <ul>
-          <li>Learn useful skills</li>
-          <li>Practice with simple tasks</li>
-          <li>Track demo points as you progress</li>
-          <li>Build a brighter future</li>
+      <div class="card" style="margin-top:20px">
+        <h3 style="margin-bottom:8px">Community guidelines</h3>
+        <ul style="padding-left:18px;font-size:14px;color:var(--muted);line-height:1.7">
+          <li>Be respectful and supportive.</li>
+          <li>Share learning resources and tips.</li>
+          <li>No spam or promotional links without permission.</li>
+          <li>Celebrate every small win 🌱</li>
         </ul>
       </div>
-      <div class="info">
-        <h2>🌿 About TaskPoa</h2>
-        <p>TaskPoa is a learning project exploring simple online tasks
-           and rewards. This version is a demonstration, not a live
-           rewards service.</p>
-        <p>Our motto: <strong>Better skills. Brighter tomorrows.</strong></p>
+    </main>
+  </div>
+<!-- ========== PROFILE PAGE ========== -->
+  <div id="page-profile" class="page">
+    <main>
+      <div class="card">
+        <h2>👤 Your Profile</h2>
+        <p class="sub">Update your photo and personal details. Everything is stored locally in this browser.</p>
+
+        <div class="profile-header" style="margin-top:20px">
+          <div class="avatar-wrap">
+            <div class="avatar" id="avatarPreview">🌱</div>
+            <label class="avatar-upload" for="photoInput" title="Upload photo">📷</label>
+            <input type="file" id="photoInput" accept="image/*">
+          </div>
+          <div>
+            <p style="font-size:18px;font-weight:700" id="profileNameDisplay">Guest</p>
+            <p style="color:var(--muted);font-size:14px" id="profileUserDisplay">@guest</p>
+          </div>
+        </div>
+
+        <form id="profileForm">
+          <div class="form-row">
+            <label for="pDisplayName">Display name</label>
+            <input id="pDisplayName" type="text" maxlength="30" placeholder="e.g. Japheth" required>
+          </div>
+          <div class="form-row">
+            <label for="pUsername">Username</label>
+            <input id="pUsername" type="text" maxlength="20" pattern="[A-Za-z0-9_]{3,20}"
+                   title="3–20 letters, numbers or underscores" placeholder="e.g. Japhee_01" required>
+          </div>
+          <div class="form-row">
+            <label for="pBio">Bio (optional)</label>
+            <textarea id="pBio" rows="3" maxlength="160" placeholder="A short intro about you..." style="resize:vertical"></textarea>
+          </div>
+          <div class="form-row">
+            <label for="pCountry">Country (optional)</label>
+            <input id="pCountry" type="text" maxlength="40" placeholder="e.g. Kenya">
+          </div>
+          <button class="action" type="submit">Save profile</button>
+          <p class="message" id="profileMsg" aria-live="polite"></p>
+        </form>
       </div>
-    </section>
-  </main>
+    </main>
+  </div>
+
+  <!-- ========== LOGIN PAGE ========== -->
+  <div id="page-login" class="page">
+    <main>
+      <div class="auth-box">
+        <h2>Log in</h2>
+        <p class="sub">Welcome back! Enter your details to continue.</p>
+        <form id="loginForm">
+          <div class="form-row">
+            <label for="loginEmail">Email or username</label>
+            <input id="loginEmail" type="text" required placeholder="you@email.com or username" autocomplete="username">
+          </div>
+          <div class="form-row">
+            <label for="loginPass">Password</label>
+            <input id="loginPass" type="password" required minlength="4" placeholder="••••••••" autocomplete="current-password">
+          </div>
+          <button class="action" type="submit">Log in</button>
+          <p class="message" id="loginMsg" aria-live="polite"></p>
+        </form>
+        <div class="switch-auth">
+          Don't have an account? <a data-page="signup">Create one</a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ========== SIGNUP PAGE ========== -->
+  <div id="page-signup" class="page">
+    <main>
+      <div class="auth-box">
+        <h2>Create account</h2>
+        <p class="sub">Join TaskPoa and start learning today.</p>
+        <form id="signupForm">
+          <div class="form-row">
+            <label for="suDisplayName">Display name</label>
+            <input id="suDisplayName" type="text" maxlength="30" required placeholder="e.g. Japheth">
+          </div>
+          <div class="form-row">
+            <label for="suUsername">Username</label>
+            <input id="suUsername" type="text" maxlength="20" pattern="[A-Za-z0-9_]{3,20}" required
+                   title="3–20 letters, numbers or underscores" placeholder="e.g. Japhee_01">
+          </div>
+          <div class="form-row">
+            <label for="suEmail">Email</label>
+            <input id="suEmail" type="email" required placeholder="you@email.com">
+          </div>
+          <div class="form-row">
+            <label for="suPass">Password</label>
+            <input id="suPass" type="password" required minlength="4" placeholder="At least 4 characters">
+          </div>
+          <div class="form-row">
+            <label for="suRefer">Referral code (optional)</label>
+            <input id="suRefer" type="text" maxlength="12" placeholder="Friend's code">
+          </div>
+          <button class="action" type="submit">Create account</button>
+          <p class="message" id="signupMsg" aria-live="polite"></p>
+        </form>
+        <div class="switch-auth">
+          Already have an account? <a data-page="login">Log in</a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ========== ABOUT PAGE ========== -->
+  <div id="page-about" class="page">
+    <main>
+      <div class="info-grid">
+        <div class="info dark">
+          <h2>🎯 Why TaskPoa?</h2>
+          <ul>
+            <li>Learn useful skills with simple tasks</li>
+            <li>Track demo points as you progress</li>
+            <li>Refer friends and earn together</li>
+            <li>Join a supportive community</li>
+            <li>Build a brighter future, one task at a time</li>
+          </ul>
+        </div>
+        <div class="info">
+          <h2>🌿 About TaskPoa</h2>
+          <p>TaskPoa is a learning project exploring simple online tasks and rewards.</p>
+          <p style="margin-top:10px">This version is a demonstration, not a live rewards service. Points have no cash value.</p>
+          <p style="margin-top:12px"><strong>Our motto:</strong> Better skills. Brighter tomorrows.</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Celebration overlay -->
+  <div class="celebration-overlay" id="celebrationOverlay">
+    <div class="celebration-box">
+      <div class="emoji" id="celebEmoji">🎉</div>
+      <h2 id="celebTitle">Task Complete!</h2>
+      <p id="celebText" style="color:var(--muted);margin:10px 0 20px">You earned demo points. Keep going!</p>
+      <button class="action" id="celebClose">Awesome!</button>
+    </div>
+  </div>
 
   <footer>
-    <div class="brand">🌱 Task<span>Poa</span></div>
+    <div class="brand">🌱 Task<span style="color:#65e8b9">Poa</span></div>
     Learn · Complete · Grow<br>
-    © 2026 TaskPoa · Learning project
+    © 2026 TaskPoa · Learning project · Demo only
   </footer>
-
-  <script>
+<script>
+  (function () {
     "use strict";
 
-    const STORAGE_KEY = "taskpoa_demo_v1";
-    const PROFILE_KEY = "taskpoa_profile_v1";
-    const BASE_POINTS = 200;
+    // ---------- Storage keys ----------
+    const KEYS = {
+      user: "taskpoa_user_v2",
+      state: "taskpoa_state_v2",
+      accounts: "taskpoa_accounts_v2"
+    };
+
     const REWARD = 10;
+    const REFERRAL_BONUS = 25;
+    const TOTAL_TASKS = 12;
+    const REFRESH_MS = 60 * 60 * 1000; // 1 hour
 
-    const $ = id => document.getElementById(id);
+    // ---------- Default tasks (12 total) ----------
+    const TASK_DEFS = [
+      { id: "quiz1", icon: "🧠", type: "QUIZ", title: "Quick Quiz: Capital of Kenya", desc: "What is the capital city of Kenya?", answer: "nairobi", points: 10 },
+      { id: "learn1", icon: "📚", type: "LEARN", title: "Daily Learning", desc: "Learning a little every day helps build knowledge and confidence.", points: 10 },
+      { id: "quiz2", icon: "🌍", type: "QUIZ", title: "Geography: Largest Ocean", desc: "What is the largest ocean on Earth?", answer: "pacific", points: 10 },
+      { id: "learn2", icon: "💡", type: "LEARN", title: "Growth Mindset", desc: "A growth mindset helps you see challenges as opportunities to improve.", points: 10 },
+      { id: "quiz3", icon: "🔢", type: "QUIZ", title: "Math: 7 × 8", desc: "What is 7 multiplied by 8?", answer: "56", points: 10 },
+      { id: "learn3", icon: "🗣️", type: "LEARN", title: "Communication Tip", desc: "Clear and kind communication builds stronger relationships.", points: 10 },
+      { id: "quiz4", icon: "🦁", type: "QUIZ", title: "Animals: Fastest Land Animal", desc: "What is the fastest land animal?", answer: "cheetah", points: 10 },
+      { id: "learn4", icon: "🎯", type: "LEARN", title: "Goal Setting", desc: "Write down one small goal you can achieve this week.", points: 10 },
+      { id: "quiz5", icon: "💻", type: "QUIZ", title: "Tech: HTML Stands For", desc: "What does HTML stand for? (first three words)", answer: "hypertext markup language", points: 15 },
+      { id: "learn5", icon: "🌱", type: "LEARN", title: "Consistency Wins", desc: "Small consistent actions lead to big results over time.", points: 10 },
+      { id: "quiz6", icon: "🇰🇪", type: "QUIZ", title: "Kenya: Independence Year", desc: "In which year did Kenya gain independence?", answer: "1963", points: 10 },
+      { id: "learn6", icon: "🤝", type: "LEARN", title: "Help a Friend", desc: "Share one thing you learned today with someone else.", points: 10 }
+    ];
 
-    function readStorage(key) {
+    // ---------- Helpers ----------
+    const $ = (id) => document.getElementById(id);
+    function read(key) {
       try {
-        const value = localStorage.getItem(key);
-        return value ? JSON.parse(value) : null;
-      } catch (error) {
-        console.warn("Unable to read local storage.", error);
-        return null;
-      }
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : null;
+      } catch { return null; }
     }
-
-    function writeStorage(key, value) {
+    function write(key, val) {
       try {
-        localStorage.setItem(key, JSON.stringify(value));
+        localStorage.setItem(key, JSON.stringify(val));
         return true;
-      } catch (error) {
-        console.warn("Unable to save local storage.", error);
-        return false;
-      }
+      } catch { return false; }
     }
+    function genCode() {
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let code = "TP-";
+      for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
+      return code;
+    }
+
+    // ---------- State ----------
+    let currentUser = read(KEYS.user);
+    let state = read(KEYS.state) || defaultState();
+    let accounts = read(KEYS.accounts) || {};
 
     function defaultState() {
       return {
-        quizDone: false,
-        learningDone: false,
-        points: BASE_POINTS
+        points: 200,
+        completed: {},
+        lastRefresh: Date.now(),
+        referrals: 0
       };
     }
 
-    function loadDemoState() {
-      const data = readStorage(STORAGE_KEY);
+    function ensureState() {
+      if (!state.completed) state.completed = {};
+      if (typeof state.points !== "number") state.points = 200;
+      if (typeof state.referrals !== "number") state.referrals = 0;
+      if (!state.lastRefresh) state.lastRefresh = Date.now();
+    }
+    ensureState();
 
-      if (!data ||
-          typeof data.quizDone !== "boolean" ||
-          typeof data.learningDone !== "boolean") {
-        return defaultState();
-      }
+    // ---------- Page navigation ----------
+    function showPage(name) {
+      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+      const page = $("page-" + name);
+      if (page) page.classList.add("active");
 
-      const expected = BASE_POINTS
-        + (data.quizDone ? REWARD : 0)
-        + (data.learningDone ? REWARD : 0);
+      document.querySelectorAll("#mainNav a").forEach(a => {
+        a.classList.toggle("active", a.dataset.page === name);
+      });
 
-      if (data.points !== expected) return defaultState();
-
-      return {
-        quizDone: data.quizDone,
-        learningDone: data.learningDone,
-        points: expected
-      };
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      updateAll();
     }
 
-    function loadProfile() {
-      const data = readStorage(PROFILE_KEY);
+    document.querySelectorAll("[data-page]").forEach(el => {
+      el.addEventListener("click", (e) => {
+        e.preventDefault();
+        showPage(el.dataset.page);
+      });
+    });
 
-      if (!data ||
-          typeof data.displayName !== "string" ||
-          !data.displayName.trim() ||
-          data.displayName.trim().length > 30 ||
-          typeof data.username !== "string" ||
-          !/^[A-Za-z0-9_]{3,20}$/.test(data.username)) {
-        return null;
-      }
-
-      return {
-        displayName: data.displayName.trim(),
-        username: data.username
-      };
-    }
-
-    let state = loadDemoState();
-    let profile = loadProfile();
-
-    function saveState() {
-      return writeStorage(STORAGE_KEY, state);
-    }
-
-    function updateProfileDisplay() {
-      const form = $("profileForm");
-      const display = $("profileDisplay");
-
-      if (profile) {
-        $("dashboardGreeting").textContent =
-          "Welcome back, " + profile.displayName + "! 🌱";
-        $("dashboardMessage").textContent =
-          "Great to see you, @" + profile.username +
-          ". Keep learning and growing!";
-        $("shownDisplayName").textContent = profile.displayName;
-        $("shownUsername").textContent = "@" + profile.username;
-
-        form.hidden = true;
-        display.hidden = false;
+    // ---------- Auth UI ----------
+    function updateAuthArea() {
+      const area = $("authArea");
+      if (currentUser) {
+        const photo = currentUser.photo || null;
+        area.innerHTML = `
+          <div class="user-chip" id="userChip" title="View profile">
+            ${photo
+              ? `<img src="${photo}" alt="">`
+              : `<div class="mini-avatar">🌱</div>`}
+            <span>${escapeHtml(currentUser.displayName || currentUser.username)}</span>
+          </div>
+          <button class="btn-outline" id="logoutBtn" type="button">Log out</button>
+        `;
+        $("userChip").addEventListener("click", () => showPage("profile"));
+        $("logoutBtn").addEventListener("click", logout);
       } else {
-        $("dashboardGreeting").textContent = "Welcome to TaskPoa! 🌱";
-        $("dashboardMessage").textContent =
-          "Create your profile and start learning.";
-        form.hidden = false;
-        display.hidden = true;
+        area.innerHTML = `
+          <button class="btn-outline" data-page="login" type="button">Log in</button>
+          <button class="btn-solid" data-page="signup" type="button">Sign up</button>
+        `;
+        area.querySelectorAll("[data-page]").forEach(b => {
+          b.addEventListener("click", (e) => {
+            e.preventDefault();
+            showPage(b.dataset.page);
+          });
+        });
       }
     }
 
-    function updateDisplay() {
-      const completed = Number(state.quizDone) +
-                        Number(state.learningDone);
-
-      $("points").textContent = state.points;
-      $("dashboardPoints").textContent = state.points;
-      $("progress").textContent = completed + " of 2 completed";
-      $("dashboardProgress").textContent = completed + " of 2";
-
-      $("quizButton").disabled = state.quizDone;
-      $("answer").disabled = state.quizDone;
-      $("learnButton").disabled = state.learningDone;
-
-      $("quizBadge").hidden = !state.quizDone;
-      $("learnBadge").hidden = !state.learningDone;
-
-      $("task-quiz").classList.toggle("completed", state.quizDone);
-      $("task-learn").classList.toggle("completed", state.learningDone);
-
-      $("celebrateBanner").classList.toggle("show", completed === 2);
-
-      if (state.quizDone) {
-        $("quizMessage").textContent = "Quiz completed! Demo progress restored.";
-      }
-
-      if (state.learningDone) {
-        $("learnMessage").textContent =
-          "Learning task completed! Demo progress restored.";
-      }
+    function escapeHtml(str) {
+      const d = document.createElement("div");
+      d.textContent = str;
+      return d.innerHTML;
     }
-
-    $("profileForm").addEventListener("submit", function (event) {
-      event.preventDefault();
-
-      const displayName = $("displayName").value.trim();
-      const username = $("username").value.trim();
-
-      if (!displayName || displayName.length > 30) {
-        $("profileMessage").textContent =
-          "Enter a display name of 1–30 characters.";
-        $("profileMessage").className = "message error";
-        return;
-      }
+// ---------- Signup / Login ----------
+    $("signupForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const displayName = $("suDisplayName").value.trim();
+      const username = $("suUsername").value.trim();
+      const email = $("suEmail").value.trim().toLowerCase();
+      const pass = $("suPass").value;
+      const refer = $("suRefer").value.trim().toUpperCase();
 
       if (!/^[A-Za-z0-9_]{3,20}$/.test(username)) {
-        $("profileMessage").textContent =
-          "Username must have 3–20 letters, numbers or underscores.";
-        $("profileMessage").className = "message error";
+        $("signupMsg").textContent = "Username must be 3–20 letters, numbers or underscores.";
+        $("signupMsg").className = "message error";
+        return;
+      }
+      if (accounts[username] || Object.values(accounts).some(a => a.email === email)) {
+        $("signupMsg").textContent = "Username or email already taken.";
+        $("signupMsg").className = "message error";
         return;
       }
 
-      const newProfile = { displayName, username };
+      const code = genCode();
+      const user = {
+        displayName,
+        username,
+        email,
+        pass,
+        referralCode: code,
+        photo: null,
+        bio: "",
+        country: "",
+        createdAt: Date.now()
+      };
 
-      if (!writeStorage(PROFILE_KEY, newProfile)) {
-        $("profileMessage").textContent =
-          "Could not save your profile. Check browser storage settings.";
-        $("profileMessage").className = "message error";
-        return;
+      accounts[username] = user;
+      write(KEYS.accounts, accounts);
+
+      if (refer) {
+        const referrer = Object.values(accounts).find(a => a.referralCode === refer);
+        if (referrer && referrer.username !== username) {
+          state.points += REFERRAL_BONUS;
+          state.referrals = (state.referrals || 0) + 1;
+          write(KEYS.state, state);
+        }
       }
 
-      profile = newProfile;
-      $("profileMessage").textContent = "Profile saved successfully!";
-      $("profileMessage").className = "message success";
-
-      updateProfileDisplay();
-    });
-
-    $("editProfileButton").addEventListener("click", function () {
-      if (profile) {
-        $("displayName").value = profile.displayName;
-        $("username").value = profile.username;
-      }
-
-      $("profileForm").hidden = false;
-      $("profileDisplay").hidden = true;
-      $("profileMessage").textContent = "";
-      $("displayName").focus();
-    });
-
-    $("quizForm").addEventListener("submit", function (event) {
-      event.preventDefault();
-
-      if (state.quizDone) return;
-
-      const answer = $("answer").value.trim().toLowerCase();
-
-      if (answer !== "nairobi") {
-        $("quizMessage").textContent = "Not quite. Try again!";
-        $("quizMessage").className = "message error";
-        return;
-      }
-
-      state.quizDone = true;
-      state.points += REWARD;
-
-      const saved = saveState();
-      updateDisplay();
-
-      $("quizMessage").textContent = saved
-        ? "Correct! 10 demo points saved 🎉"
-        : "Correct! Points updated, but the browser could not save them.";
-      $("quizMessage").className = saved
-        ? "message success" : "message error";
-
-      $("answer").value = "";
-    });
-
-    $("learnButton").addEventListener("click", function () {
-      if (state.learningDone) return;
-
-      state.learningDone = true;
-      state.points += REWARD;
-
-      const saved = saveState();
-      updateDisplay();
-
-      $("learnMessage").textContent = saved
-        ? "Well done! 10 demo points saved 🎉"
-        : "Task completed, but the browser could not save the points.";
-      $("learnMessage").className = saved
-        ? "message success" : "message error";
-    });
-
-    $("resetButton").addEventListener("click", function () {
-      if (!window.confirm(
-        "Reset task progress and return to 200 demo points? Your profile will be kept."
-      )) return;
-
+      currentUser = user;
+      write(KEYS.user, currentUser);
       state = defaultState();
-
-      if (!saveState()) {
-        $("quizMessage").textContent =
-          "Progress reset in this session, but could not be saved.";
-        $("quizMessage").className = "message error";
-      } else {
-        $("quizMessage").textContent = "";
-        $("learnMessage").textContent = "";
+      if (refer) {
+        state.points += REFERRAL_BONUS;
+        state.referrals = 1;
       }
+      write(KEYS.state, state);
 
-      updateDisplay();
+      $("signupMsg").textContent = "Account created! Welcome 🌱";
+      $("signupMsg").className = "message success";
+      setTimeout(() => showPage("home"), 800);
     });
 
-    updateProfileDisplay();
-    updateDisplay();
+    $("loginForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const id = $("loginEmail").value.trim().toLowerCase();
+      const pass = $("loginPass").value;
+
+      const user = Object.values(accounts).find(
+        a => a.username.toLowerCase() === id || a.email === id
+      );
+
+      if (!user || user.pass !== pass) {
+        $("loginMsg").textContent = "Invalid credentials. Try again.";
+        $("loginMsg").className = "message error";
+        return;
+      }
+
+      currentUser = user;
+      write(KEYS.user, currentUser);
+      const saved = read(KEYS.state);
+      state = saved || defaultState();
+      ensureState();
+
+      $("loginMsg").textContent = "Logged in successfully!";
+      $("loginMsg").className = "message success";
+      setTimeout(() => showPage("home"), 600);
+    });
+
+    function logout() {
+      currentUser = null;
+      write(KEYS.user, null);
+      updateAuthArea();
+      showPage("home");
+    }
+
+    // ---------- Profile ----------
+    function loadProfileForm() {
+      if (!currentUser) {
+        showPage("login");
+        return;
+      }
+      $("pDisplayName").value = currentUser.displayName || "";
+      $("pUsername").value = currentUser.username || "";
+      $("pBio").value = currentUser.bio || "";
+      $("pCountry").value = currentUser.country || "";
+      $("profileNameDisplay").textContent = currentUser.displayName || "Guest";
+      $("profileUserDisplay").textContent = "@" + (currentUser.username || "guest");
+      renderAvatar();
+    }
+
+    function renderAvatar() {
+      const el = $("avatarPreview");
+      if (currentUser && currentUser.photo) {
+        el.innerHTML = `<img src="${currentUser.photo}" alt="Profile photo">`;
+      } else {
+        el.innerHTML = "🌱";
+      }
+    }
+
+    $("photoInput").addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file || !file.type.startsWith("image/")) return;
+      if (file.size > 1.5 * 1024 * 1024) {
+        $("profileMsg").textContent = "Image too large (max \~1.5 MB).";
+        $("profileMsg").className = "message error";
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (currentUser) {
+          currentUser.photo = reader.result;
+          accounts[currentUser.username] = currentUser;
+          write(KEYS.user, currentUser);
+          write(KEYS.accounts, accounts);
+          renderAvatar();
+          updateAuthArea();
+          $("profileMsg").textContent = "Photo updated!";
+          $("profileMsg").className = "message success";
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+
+    $("profileForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!currentUser) return;
+
+      const displayName = $("pDisplayName").value.trim();
+      const username = $("pUsername").value.trim();
+      const bio = $("pBio").value.trim();
+      const country = $("pCountry").value.trim();
+
+      if (!/^[A-Za-z0-9_]{3,20}$/.test(username)) {
+        $("profileMsg").textContent = "Invalid username format.";
+        $("profileMsg").className = "message error";
+        return;
+      }
+
+      if (username !== currentUser.username) {
+        if (accounts[username]) {
+          $("profileMsg").textContent = "Username already taken.";
+          $("profileMsg").className = "message error";
+          return;
+        }
+        delete accounts[currentUser.username];
+      }
+
+      currentUser.displayName = displayName;
+      currentUser.username = username;
+      currentUser.bio = bio;
+      currentUser.country = country;
+      accounts[username] = currentUser;
+      write(KEYS.user, currentUser);
+      write(KEYS.accounts, accounts);
+
+      $("profileNameDisplay").textContent = displayName;
+      $("profileUserDisplay").textContent = "@" + username;
+      $("profileMsg").textContent = "Profile saved successfully!";
+      $("profileMsg").className = "message success";
+      updateAuthArea();
+      updateHomeDashboard();
+    });
+
+    // ---------- Tasks ----------
+    function completedCount() {
+      return Object.keys(state.completed).filter(id => state.completed[id]).length;
+    }
+
+    function renderTasks() {
+      const list = $("taskList");
+      list.innerHTML = "";
+
+      TASK_DEFS.forEach((t) => {
+        const done = !!state.completed[t.id];
+        const article = document.createElement("article");
+        article.className = "task" + (done ? " completed" : "");
+        article.id = "task-" + t.id;
+
+        let body = `
+          <div class="task-icon">${t.icon}</div>
+          <div>
+            <h3>${t.title}
+              <span class="pill">${t.type}</span>
+              ${done ? '<span class="pill gold">COMPLETED</span>' : ''}
+            </h3>
+            <p>${t.desc}</p>
+        `;
+
+        if (t.type === "QUIZ") {
+          body += `
+            <input type="text" id="ans-${t.id}" placeholder="Type your answer" ${done ? "disabled" : ""} aria-label="Answer">
+            <button class="action" data-task="${t.id}" \( {done ? "disabled" : ""}> \){done ? "Completed" : "Submit answer"}</button>
+            <div class="message" id="msg-${t.id}"></div>
+          `;
+        } else {
+          body += `
+            <button class="action" data-task="${t.id}" \( {done ? "disabled" : ""}> \){done ? "Completed ✓" : "✓ Complete task"}</button>
+            <div class="message" id="msg-${t.id}"></div>
+          `;
+        }
+
+        body += `</div>
+          <div class="reward">+${t.points}<small>demo pts</small></div>`;
+
+        article.innerHTML = body;
+        list.appendChild(article);
+      });
+
+      list.querySelectorAll("button[data-task]").forEach(btn => {
+        btn.addEventListener("click", () => handleTask(btn.dataset.task));
+      });
+
+      list.querySelectorAll("input[id^='ans-']").forEach(inp => {
+        inp.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            handleTask(inp.id.replace("ans-", ""));
+          }
+        });
+      });
+    }
+
+    function handleTask(id) {
+      if (state.completed[id]) return;
+      const task = TASK_DEFS.find(t => t.id === id);
+      if (!task) return;
+
+      if (task.type === "QUIZ") {
+        const input = $("ans-" + id);
+        const val = (input ? input.value : "").trim().toLowerCase();
+        if (val !== task.answer) {
+          const msg = $("msg-" + id);
+          msg.textContent = "Not quite. Try again!";
+          msg.className = "message error";
+          return;
+        }
+      }
+
+      state.completed[id] = true;
+      state.points += task.points;
+      write(KEYS.state, state);
+
+      const msg = $("msg-" + id);
+      if (msg) {
+        msg.textContent = `+${task.points} demo points saved! 🎉`;
+        msg.className = "message success";
+      }
+
+      renderTasks();
+      updateAll();
+      showCelebration(task);
+    }
+
+    // ---------- Celebration ----------
+    function showCelebration(task) {
+      const overlay = $("celebrationOverlay");
+      $("celebEmoji").textContent = ["🎉", "🌟", "🏆", "✨", "💪"][Math.floor(Math.random() * 5)];
+      $("celebTitle").textContent = "Task Complete!";
+      \( ("celebText").textContent = `You earned + \){task.points} demo points for “${task.title}”. Keep growing!`;
+      overlay.classList.add("show");
+
+      const colors = ["#087f5b", "#f5b82e", "#29ce91", "#5ce0ae", "#ff6b6b", "#4dabf7"];
+      for (let i = 0; i < 40; i++) {
+        const c = document.createElement("div");
+        c.className = "confetti";
+        c.style.left = Math.random() * 100 + "vw";
+        c.style.background = colors[Math.floor(Math.random() * colors.length)];
+        c.style.animationDelay = (Math.random() * 0.8) + "s";
+        c.style.width = (6 + Math.random() * 8) + "px";
+        c.style.height = c.style.width;
+        overlay.appendChild(c);
+        setTimeout(() => c.remove(), 3000);
+      }
+    }
+
+    $("celebClose").addEventListener("click", () => {
+      $("celebrationOverlay").classList.remove("show");
+    });
+
+    // ---------- Refresh every 1 hour ----------
+    function checkRefresh() {
+      const now = Date.now();
+      if (now - state.lastRefresh >= REFRESH_MS) {
+        state.completed = {};
+        state.lastRefresh = now;
+        write(KEYS.state, state);
+        renderTasks();
+        updateAll();
+      }
+      updateCountdown();
+    }
+
+    function updateCountdown() {
+      const remaining = Math.max(0, REFRESH_MS - (Date.now() - state.lastRefresh));
+      const mins = Math.floor(remaining / 60000);
+      const secs = Math.floor((remaining % 60000) / 1000);
+      $("refreshCountdown").textContent =
+        String(mins).padStart(2, "0") + ":" + String(secs).padStart(2, "0");
+    }
+
+    $("manualRefreshBtn").addEventListener("click", () => {
+      if (!confirm("Refresh all tasks now? Completed status will reset (points stay).")) return;
+      state.completed = {};
+      state.lastRefresh = Date.now();
+      write(KEYS.state, state);
+      renderTasks();
+      updateAll();
+    });
+
+    setInterval(checkRefresh, 1000);
+
+    // ---------- Refer ----------
+    function updateRefer() {
+      if (currentUser) {
+        $("referCodeDisplay").textContent = currentUser.referralCode || "------";
+        $("referCount").textContent = state.referrals || 0;
+      } else {
+        $("referCodeDisplay").textContent = "Log in to get your code";
+        $("referCount").textContent = "0";
+      }
+    }
+
+    $("copyReferBtn").addEventListener("click", () => {
+      if (!currentUser) {
+        $("copyMessage").textContent = "Please log in first.";
+        $("copyMessage").className = "message error";
+        showPage("login");
+        return;
+      }
+      const code = currentUser.referralCode;
+      navigator.clipboard.writeText(code).then(() => {
+        $("copyMessage").textContent = "Code copied! Share it with friends.";
+        $("copyMessage").className = "message success";
+      }).catch(() => {
+        $("copyMessage").textContent = "Could not copy. Select and copy manually.";
+        $("copyMessage").className = "message error";
+      });
+    });
+
+    // ---------- Home dashboard ----------
+    function updateHomeDashboard() {
+      $("homePoints").textContent = state.points;
+      $("dashPoints").textContent = state.points;
+      $("dashProgress").textContent = completedCount() + " / " + TOTAL_TASKS;
+      $("dashReferrals").textContent = state.referrals || 0;
+      $("taskProgressPill").textContent = completedCount() + " of " + TOTAL_TASKS + " completed";
+
+      if (currentUser) {
+        $("homeGreeting").textContent = "Welcome back, " + currentUser.displayName + "! 🌱";
+        $("homeMessage").textContent = "Great to see you, @" + currentUser.username + ". Keep learning and growing!";
+      } else {
+        $("homeGreeting").textContent = "Welcome to TaskPoa! 🌱";
+        $("homeMessage").textContent = "Create an account or log in to save progress and unlock referrals.";
+      }
+    }
+
+    function updateAll() {
+      updateAuthArea();
+      updateHomeDashboard();
+      updateRefer();
+      if ($("page-profile").classList.contains("active")) loadProfileForm();
+    }
+
+    // ---------- Init ----------
+    renderTasks();
+    updateAll();
+    checkRefresh();
+
+    document.querySelectorAll("[data-page='profile']").forEach(el => {
+      el.addEventListener("click", (e) => {
+        if (!currentUser) {
+          e.preventDefault();
+          showPage("login");
+        }
+      });
+    });
+  })();
   </script>
 </body>
 </html>
