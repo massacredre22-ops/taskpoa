@@ -2,166 +2,318 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TaskPoa - Learn and Earn</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f3f6fb;
-      color: #172033;
-    }
-    header {
-      background: #123c2c;
-      color: white;
-      padding: 22px 18px;
-    }
-    header h1 { margin: 0 0 6px; }
-    header p { margin: 0; }
-    main {
-      max-width: 650px;
-      margin: 22px auto;
-      padding: 0 15px;
-    }
-    .card {
-      background: white;
-      padding: 20px;
-      margin-bottom: 16px;
-      border-radius: 14px;
-      box-shadow: 0 3px 12px #0000000d;
-    }
-    .balance {
-      background: #dff7e9;
-      border: 1px solid #b6e9cb;
-    }
-    .points {
-      font-size: 32px;
-      font-weight: bold;
-      color: #126b40;
-    }
-    button {
-      background: #147d4d;
-      color: white;
-      border: 0;
-      border-radius: 8px;
-      padding: 12px 16px;
-      font-size: 15px;
-      cursor: pointer;
-      margin-top: 8px;
-    }
-    button:disabled {
-      background: #7d8b83;
-      cursor: default;
-    }
-    input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ccd3dd;
-      border-radius: 8px;
-      font-size: 16px;
-      margin-top: 8px;
-    }
-    .notice {
-      background: #fff3cd;
-      border-radius: 10px;
-      padding: 14px;
-      font-size: 14px;
-    }
-    footer {
-      text-align: center;
-      padding: 20px;
-      color: #667085;
-      font-size: 13px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#063b2e">
+<title>TaskPoa | Learn. Complete. Grow.</title>
+<style>
+:root {
+  --green:#087f5b;
+  --dark:#063b2e;
+  --mint:#d9f8eb;
+  --gold:#f5b82e;
+  --ink:#17332d;
+  --muted:#63766f;
+  --line:#e1ece6;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0;
+  font-family:system-ui,-apple-system,Arial,sans-serif;
+  color:var(--ink);
+  background:#f4f8f6;
+}
+button,input { font:inherit; }
+button { cursor:pointer; }
+header {
+  background:var(--dark);
+  color:white;
+  padding:17px 5%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+}
+.brand { font-size:25px;font-weight:850;letter-spacing:-1px; }
+.brand span { color:#5ce0ae; }
+.tagline { font-size:12px;color:#b8e8d6; }
+nav { display:flex;gap:17px;flex-wrap:wrap; }
+nav a { color:white;text-decoration:none;font-size:14px; }
+nav a:hover { color:#5ce0ae; }
+.hero {
+  padding:55px 6%;
+  background:linear-gradient(120deg,#042e25,#087f5b);
+  color:white;
+  display:grid;
+  grid-template-columns:1.3fr .7fr;
+  gap:28px;
+  align-items:center;
+}
+.eyebrow {
+  color:#79f0c4;
+  font-weight:800;
+  letter-spacing:2px;
+  font-size:12px;
+}
+.hero h1 {
+  font-size:clamp(34px,6vw,56px);
+  line-height:1.08;
+  margin:14px 0;
+  letter-spacing:-1.8px;
+}
+.hero h1 span { color:#65e8b9; }
+.hero p { line-height:1.7;color:#d7eee5; }
+.primary {
+  display:inline-block;
+  background:#29ce91;
+  color:#063b2e;
+  border:0;
+  padding:13px 21px;
+  border-radius:30px;
+  font-weight:800;
+  text-decoration:none;
+  margin-top:10px;
+}
+.points-card {
+  background:#ffffff14;
+  border:1px solid #ffffff35;
+  border-radius:22px;
+  padding:24px;
+  backdrop-filter:blur(5px);
+}
+.coin { font-size:35px; }
+.points { font-size:40px;font-weight:850;margin:5px 0; }
+.pill {
+  display:inline-block;
+  padding:5px 10px;
+  border-radius:30px;
+  background:#d9f8eb;
+  color:#087f5b;
+  font-size:12px;
+  font-weight:800;
+}
+main { max-width:1050px;margin:auto;padding:24px 16px 45px; }
+.notice {
+  background:#fff5d9;
+  border:1px solid #f3d27c;
+  border-radius:13px;
+  padding:15px;
+  margin-bottom:34px;
+  color:#6d4b05;
+  font-size:14px;
+  line-height:1.6;
+}
+.section-head {
+  display:flex;justify-content:space-between;
+  align-items:center;gap:12px;flex-wrap:wrap;
+  margin-bottom:18px;
+}
+h2 { margin:0;font-size:25px;letter-spacing:-.5px; }
+.sub { color:var(--muted);margin:7px 0 0;font-size:14px; }
+.task-list { display:grid;gap:14px; }
+.task {
+  display:grid;
+  grid-template-columns:64px 1fr auto;
+  gap:17px;
+  align-items:center;
+  padding:20px;
+  background:white;
+  border:1px solid var(--line);
+  border-radius:17px;
+  box-shadow:0 5px 20px #153c2d08;
+}
+.task-icon {
+  width:60px;height:60px;border-radius:17px;
+  background:#d9f8eb;
+  display:grid;place-items:center;font-size:28px;
+}
+.task h3 { margin:0 0 7px;font-size:17px; }
+.task p { margin:0 0 12px;color:var(--muted);font-size:14px;line-height:1.5; }
+.reward {
+  text-align:center;color:#a66c00;font-weight:850;
+  min-width:65px;font-size:21px;
+}
+.reward small { display:block;font-size:12px;color:var(--muted);font-weight:500; }
+.action {
+  border:0;background:var(--green);color:white;
+  border-radius:9px;padding:11px 15px;font-weight:750;
+}
+.action:disabled { background:#e1eee8;color:#477363; }
+input {
+  width:100%;max-width:310px;padding:12px;
+  border:1px solid #ccddd4;border-radius:9px;
+  margin:0 5px 8px 0;outline-color:var(--green);
+}
+.message { font-size:13px;margin-top:8px;color:var(--green); }
+.info-grid {
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:15px;margin-top:28px;
+}
+.info {
+  background:white;border:1px solid var(--line);
+  padding:22px;border-radius:17px;
+}
+.info.dark { background:var(--dark);color:white; }
+.info p,.info li { font-size:14px;line-height:1.7; }
+.info ul { padding-left:20px; }
+footer {
+  text-align:center;background:#032b22;color:#d1e8de;
+  padding:25px 15px;font-size:13px;line-height:1.8;
+}
+@media(max-width:650px) {
+  header { align-items:flex-start;flex-direction:column; }
+  nav { gap:14px; }
+  .hero { grid-template-columns:1fr;padding:36px 6%; }
+  .task { grid-template-columns:48px 1fr;gap:12px;padding:15px; }
+  .task-icon { width:46px;height:46px;font-size:23px; }
+  .reward { grid-column:2;text-align:left;font-size:16px; }
+  .info-grid { grid-template-columns:1fr; }
+  h2 { font-size:22px; }
+}
+</style>
 </head>
 <body>
-  <header>
-    <h1>TaskPoa 🌟</h1>
-    <p>Small tasks. New skills. A better tomorrow.</p>
-  </header>
+<header>
+  <div>
+    <div class="brand">🌱 Task<span>Poa</span></div>
+    <div class="tagline">LEARN · COMPLETE · GROW</div>
+  </div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#tasks">Tasks</a>
+    <a href="#about">About</a>
+  </nav>
+</header>
 
-  <main>
-    <div class="card balance">
-      <h2>Your demo balance</h2>
-      <div class="points"><span id="points">200</span> points</div>
-      <p>Practice completing tasks and collecting points.</p>
+<section class="hero" id="home">
+  <div>
+    <div class="eyebrow">WELCOME TO TASKPOA</div>
+    <h1>Small Tasks.<br><span>Big Opportunities.</span></h1>
+    <p>Explore fun activities, learn useful skills and celebrate every step forward.</p>
+    <a class="primary" href="#tasks">Explore tasks →</a>
+  </div>
+  <div class="points-card">
+    <div class="coin">🏅</div>
+    <div>Your demo balance</div>
+    <div class="points"><span id="points">200</span></div>
+    <span class="pill">DEMO POINTS</span>
+    <p>Keep learning and complete the activities below!</p>
+  </div>
+</section>
+
+<main>
+  <div class="notice">
+    <strong>⚠️ Demo only:</strong> These points have no cash value
+    and cannot be withdrawn. This is a learning project, not a live
+    rewards service. No deposits or payments are required.
+  </div>
+
+  <section id="tasks">
+    <div class="section-head">
+      <div>
+        <h2>📋 Available Tasks</h2>
+        <p class="sub">Learn something new, one task at a time.</p>
+      </div>
+      <span class="pill" id="progress">0 of 2 completed</span>
     </div>
 
-    <div class="notice">
-      <strong>Demo only:</strong> These points have no cash value
-      and cannot be withdrawn. No deposits or payments are required.
+    <div class="task-list">
+      <article class="task">
+        <div class="task-icon">🧠</div>
+        <div>
+          <h3>Task 1: Quick Quiz <span class="pill">QUIZ</span></h3>
+          <p>What is the capital city of Kenya?</p>
+          <input id="answer" placeholder="Type your answer"
+            aria-label="Your answer">
+          <button class="action" id="quizButton" onclick="checkAnswer()">
+            Submit answer
+          </button>
+          <div class="message" id="quizMessage" aria-live="polite"></div>
+        </div>
+        <div class="reward">+10<small>demo points</small></div>
+      </article>
+
+      <article class="task">
+        <div class="task-icon" style="background:#e1eaff">📚</div>
+        <div>
+          <h3>Task 2: Learning Task <span class="pill">LEARN</span></h3>
+          <p>Learning a little every day helps build knowledge and confidence.</p>
+          <button class="action" id="learnButton" onclick="completeLearning()">
+            ✓ Complete task
+          </button>
+          <div class="message" id="learnMessage" aria-live="polite"></div>
+        </div>
+        <div class="reward">+10<small>demo points</small></div>
+      </article>
     </div>
+  </section>
 
-    <div class="card">
-      <h2>🧠 Task 1: Quick quiz</h2>
-      <p>What is the capital city of Kenya?</p>
-      <input id="answer" placeholder="Type your answer">
-      <button id="quizButton" onclick="checkAnswer()">Submit answer</button>
-      <p id="quizMessage" aria-live="polite"></p>
+  <section class="info-grid" id="about">
+    <div class="info dark">
+      <h2>🎯 Why TaskPoa?</h2>
+      <ul>
+        <li>Learn useful skills</li>
+        <li>Practice with simple tasks</li>
+        <li>Track demo points as you progress</li>
+        <li>Build a brighter future</li>
+      </ul>
     </div>
-
-    <div class="card">
-      <h2>📚 Task 2: Learning task</h2>
-      <p>Read this tip: Learning a little every day builds knowledge.</p>
-      <button id="learnButton" onclick="completeLearning()">
-        Complete learning task (+10 points)
-      </button>
-      <p id="learnMessage" aria-live="polite"></p>
+    <div class="info">
+      <h2>🌿 About TaskPoa</h2>
+      <p>TaskPoa is a learning project exploring simple online tasks
+      and rewards. This version is a demonstration, not a live
+      rewards service.</p>
+      <p>Our motto: <strong>Better skills. Brighter tomorrows.</strong></p>
     </div>
+  </section>
+</main>
 
-    <div class="card">
-      <h2>ℹ️ About TaskPoa</h2>
-      <p>
-        TaskPoa is a learning project exploring simple online tasks
-        and rewards. This version is a demonstration, not a live
-        rewards service.
-      </p>
-    </div>
-  </main>
+<footer>
+  <div class="brand">🌱 Task<span style="color:#65e8b9">Poa</span></div>
+  Learn · Complete · Grow<br>
+  © 2026 TaskPoa · Learning project
+</footer>
 
-  <footer>TaskPoa © 2026 · Learning project</footer>
+<script>
+let points = 200;
+let quizDone = false;
+let learningDone = false;
 
-  <script>
-    let points = 200;
-    let quizDone = false;
-    let learningDone = false;
+function updateDisplay() {
+  document.getElementById("points").textContent = points;
+  const completed = Number(quizDone) + Number(learningDone);
+  document.getElementById("progress").textContent =
+    completed + " of 2 completed";
+}
 
-    function updatePoints() {
-      document.getElementById("points").textContent = points;
-    }
+function checkAnswer() {
+  if (quizDone) return;
+  const answer = document.getElementById("answer")
+    .value.trim().toLowerCase();
+  const message = document.getElementById("quizMessage");
 
-    function checkAnswer() {
-      if (quizDone) return;
+  if (answer === "nairobi") {
+    points += 10;
+    quizDone = true;
+    message.textContent = "Correct! You earned 10 demo points 🎉";
+    document.getElementById("quizButton").disabled = true;
+    document.getElementById("answer").disabled = true;
+    updateDisplay();
+  } else {
+    message.textContent = "Not quite. Try again!";
+  }
+}
 
-      const answer = document.getElementById("answer")
-        .value.trim().toLowerCase();
-      const message = document.getElementById("quizMessage");
-
-      if (answer === "nairobi") {
-        points += 10;
-        quizDone = true;
-        updatePoints();
-        message.textContent = "Correct! You earned 10 demo points.";
-        document.getElementById("quizButton").disabled = true;
-        document.getElementById("answer").disabled = true;
-      } else {
-        message.textContent = "Not quite. Try again!";
-      }
-    }
-
-    function completeLearning() {
-      if (learningDone) return;
-
-      points += 10;
-      learningDone = true;
-      updatePoints();
-      document.getElementById("learnMessage").textContent =
-        "Well done! You earned 10 demo points.";
-      document.getElementById("learnButton").disabled = true;
-    }
-  </script>
+function completeLearning() {
+  if (learningDone) return;
+  points += 10;
+  learningDone = true;
+  document.getElementById("learnMessage").textContent =
+    "Well done! You earned 10 demo points 🎉";
+  document.getElementById("learnButton").disabled = true;
+  updateDisplay();
+}
+</script>
 </body>
 </html>
