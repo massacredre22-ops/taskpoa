@@ -417,6 +417,211 @@ function completeLearning() {
 }  
   
 updateDisplay();  
-</script>  </body>  
+
+<script>
+const STORAGE_KEY = "taskpoa_demo_v1";
+const PROFILE_KEY = "taskpoa_profile_v1";
+
+function loadDemoState() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const data = JSON.parse(saved);
+      if (
+        Number.isSafeInteger(data.points) &&
+        data.points >= 200 &&
+        data.points <= 220 &&
+        typeof data.quizDone === "boolean" &&
+        typeof data.learningDone === "boolean" &&
+        data.points === 200 +
+          (data.quizDone ? 10 : 0) +
+          (data.learningDone ? 10 : 0)
+      ) return data;
+    }
+  } catch (error) {
+    console.log("Could not load demo progress.");
+  }
+
+  return { points: 200, quizDone: false, learningDone: false };
+}
+
+function loadProfile() {
+  try {
+    const saved = localStorage.getItem(PROFILE_KEY);
+    if (!saved) return null;
+
+    const profile = JSON.parse(saved);
+
+    if (
+      typeof profile.displayName === "string" &&
+      profile.displayName.trim() &&
+      profile.displayName.length <= 30 &&
+      typeof profile.username === "string" &&
+      /^[A-Za-z0-9_]{3,20}$/.test(profile.username)
+    ) return profile;
+  } catch (error) {
+    console.log("Could not load profile.");
+  }
+
+  return null;
+}
+
+let state = loadDemoState();
+let points = state.points;
+let quizDone = state.quizDone;
+let learningDone = state.learningDone;
+
+function saveDemoState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      points, quizDone, learningDone
+    }));
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+function updateDisplay() {
+  const completed = Number(quizDone) + Number(learningDone);
+
+  document.getElementById("points").textContent = points;
+  document.getElementById("progress").textContent =
+    completed + " of 2 completed";
+
+  document.getElementById("quizButton").disabled = quizDone;
+  document.getElementById("answer").disabled = quizDone;
+  document.getElementById("learnButton").disabled = learningDone;
+
+  document.getElementById("dashboardPoints").textContent = points;
+  document.getElementById("dashboardProgress").textContent =
+    completed + " of 2";
+
+  const profile = loadProfile();
+
+  document.getElementById("dashboardGreeting").textContent =
+    profile ? "Welcome back, @" + profile.username + "! 🌱"
+            : "Welcome to TaskPoa! 🌱";
+
+  document.getElementById("dashboardMessage").textContent =
+    profile ? "Great to see you again, " + profile.displayName +
+              ". Keep learning and growing!"
+            : "Create your profile to personalize your dashboard.";
+
+  if (quizDone) {
+    document.getElementById("quizMessage").textContent =
+      "Quiz completed! Demo progress restored.";
+  }
+
+  if (learningDone) {
+    document.getElementById("learnMessage").textContent =
+      "Learning task completed! Demo progress restored.";
+  }
+}
+
+function checkAnswer() {
+  if (quizDone) return;
+
+  const answer = document.getElementById("answer")
+    .value.trim().toLowerCase();
+
+  const message = document.getElementById("quizMessage");
+
+  if (answer === "nairobi") {
+    points += 10;
+    quizDone = true;
+
+    const saved = saveDemoState();
+    updateDisplay();
+
+    message.textContent = saved
+      ? "Correct! 10 demo points saved 🎉"
+      : "Correct, but the points could not be saved.";
+  } else {
+    message.textContent = "Not quite. Try again!";
+  }
+}
+
+function completeLearning() {
+  if (learningDone) return;
+
+  points += 10;
+  learningDone = true;
+
+  const saved = saveDemoState();
+  updateDisplay();
+
+  document.getElementById("learnMessage").textContent = saved
+    ? "Well done! 10 demo points saved 🎉"
+    : "Task completed, but the points could not be saved.";
+}
+
+document.getElementById("profileForm").addEventListener(
+  "submit", function(event) {
+    event.preventDefault();
+
+    const displayName =
+      document.getElementById("displayName").value.trim();
+    const username =
+      document.getElementById("username").value.trim();
+
+    const message = document.getElementById("profileMessage");
+
+    if (!displayName || displayName.length > 30 ||
+        !/^[A-Za-z0-9_]{3,20}$/.test(username)) {
+      message.textContent =
+        "Enter a display name and a username with 3–20 letters, numbers or underscores.";
+      return;
+    }
+
+    try {
+      localStorage.setItem(PROFILE_KEY, JSON.stringify({
+        displayName, username
+      }));
+
+      document.getElementById("shownDisplayName").textContent =
+        displayName;
+      document.getElementById("shownUsername").textContent =
+        "@" + username;
+      document.getElementById("profileDisplay").hidden = false;
+      document.getElementById("profileForm").hidden = true;
+      message.textContent = "Profile saved on this device.";
+
+      updateDisplay();
+    } catch (error) {
+      message.textContent =
+        "Could not save your profile. Check browser storage settings.";
+    }
+  }
+);
+
+document.getElementById("editProfileButton").addEventListener(
+  "click", function() {
+    document.getElementById("profileForm").hidden = false;
+    document.getElementById("profileDisplay").hidden = true;
+    document.getElementById("profileMessage").textContent =
+      "Edit your details and save again.";
+  }
+);
+
+const existingProfile = loadProfile();
+
+if (existingProfile) {
+  document.getElementById("displayName").value =
+    existingProfile.displayName;
+  document.getElementById("username").value =
+    existingProfile.username;
+  document.getElementById("shownDisplayName").textContent =
+    existingProfile.displayName;
+  document.getElementById("shownUsername").textContent =
+    "@" + existingProfile.username;
+  document.getElementById("profileDisplay").hidden = false;
+  document.getElementById("profileForm").hidden = true;
+  document.getElementById("profileMessage").textContent =
+    "Profile loaded from this device.";
+}
+
+updateDisplay();
+</script>
+</body>  
 </html>  
-Just add it to this 
