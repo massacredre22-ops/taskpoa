@@ -1215,8 +1215,8 @@
     function showCelebration(task) {
       const overlay = $("celebrationOverlay");
       $("celebEmoji").textContent = ["🎉", "🌟", "🏆", "✨", "💪"][Math.floor(Math.random() * 5)];
-      $("celebTitle").textContent = "Task Complete!";
-      \( ("celebText").textContent = `You earned + \){task.points} demo points for “${task.title}”. Keep growing!`;
+      $("celebTitle").textContent = "Task Complete!"; 
+$("celebText").textContent = `You earned +${task.points} demo points for "${task.title}". Keep growing!`;
       overlay.classList.add("show");
 
       const colors = ["#087f5b", "#f5b82e", "#29ce91", "#5ce0ae", "#ff6b6b", "#4dabf7"];
